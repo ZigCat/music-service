@@ -7,6 +7,7 @@ import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Group;
 import com.github.zigcat.ormlite.models.Role;
+import com.github.zigcat.services.GroupService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -20,6 +21,7 @@ import java.util.List;
 public class GroupController {
     public static Dao<Group, Integer> groupDao;
     private static Logger l = LoggerFactory.getLogger(GroupController.class);
+    public static GroupService groupService = new GroupService();
 
     static {
         try {
@@ -32,7 +34,7 @@ public class GroupController {
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL GROUPS\t!!!");
         try {
-            List<Group> groupList = groupDao.queryForAll();
+            List<Group> groupList = groupService.listAll();
             ctx.result(om.writeValueAsString(groupList));
             ctx.status(200);
             l.info("&&&\tgetting all groups");
@@ -49,7 +51,7 @@ public class GroupController {
         l.info("!!!\tGETTING GROUP BY ID\t!!!");
         int id = Integer.parseInt(ctx.pathParam("id"));
         try {
-            for(Group g: groupDao.queryForAll()){
+            for(Group g: groupService.listAll()){
                 l.info("Iterating over "+g.toString());
                 if(g.getId() == id){
                     ctx.result(om.writeValueAsString(g));
@@ -102,7 +104,7 @@ public class GroupController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Group updGroup = om.readValue(ctx.body(), Group.class);
-            for(Group g: groupDao.queryForAll()){
+            for(Group g: groupService.listAll()){
                 l.info("Iterating over "+g.toString());
                 if(g.getId() == updGroup.getId()){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
@@ -138,7 +140,7 @@ public class GroupController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Group delGroup = om.readValue(ctx.body(), Group.class);
-            for(Group g: groupDao.queryForAll()){
+            for(Group g: groupService.listAll()){
                 l.info("Iterating over "+g.toString());
                 if(g.checkGroup(delGroup)){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){

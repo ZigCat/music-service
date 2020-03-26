@@ -22,20 +22,8 @@ public class Group {
     private String dateOfDestroy;
 
     public boolean checkGroup(Group otherGroup){
-        if(otherGroup.getId() == id && otherGroup.getName().equals(name)
-                && otherGroup.getCreationDate().equals(creationDate)){
-            return true;
-        }
-        return false;
-    }
-
-    public static Group getById(int id) throws SQLException {
-        for(Group g: GroupController.groupDao.queryForAll()){
-            if(g.getId() == id){
-                return g;
-            }
-        }
-        return null;
+        return otherGroup.getId() == id && otherGroup.getName().equals(name)
+                && otherGroup.getCreationDate().equals(creationDate);
     }
 
     @Override

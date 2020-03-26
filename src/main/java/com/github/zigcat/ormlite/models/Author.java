@@ -3,6 +3,8 @@ package com.github.zigcat.ormlite.models;
 import com.github.zigcat.ormlite.controllers.AuthorController;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -24,11 +26,12 @@ public class Author {
     @DatabaseField
     private String description;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Group group;
 
     private LocalDate birth;
     private LocalDate death;
+    private static Logger l = LoggerFactory.getLogger(Author.class);
 
     @Override
     public String toString() {
@@ -40,20 +43,8 @@ public class Author {
     }
 
     public boolean checkAuthor(Author otherAuthor){
-        if(otherAuthor.getId() == id && otherAuthor.getName().equals(name)
-                && otherAuthor.getBirthday().equals(birthday)){
-            return true;
-        }
-        return false;
-    }
-
-    public static Author getById(int id) throws SQLException{
-        for(Author a: AuthorController.authorDao.queryForAll()){
-            if(a.getId() == id){
-                return a;
-            }
-        }
-        return null;
+        return otherAuthor.getId() == id && otherAuthor.getName().equals(name)
+                && otherAuthor.getBirthday().equals(birthday);
     }
 
     public Author(int id, String name, Group group, String description, LocalDate birth, LocalDate death) {

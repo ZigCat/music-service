@@ -52,14 +52,14 @@ public class AlbumDeserializer extends StdDeserializer<Album> {
         } else {
             try {
                 if (author != 0) {
-                    author1 = Author.getById(author);
+                    author1 = AuthorController.authorService.getById(author);
                     if (author1 == null) {
                         throw new NotFoundException("Author is not valid(404)");
                     }
                     return new Album(id, name, LocalDate.parse(creationDate, User.dateTimeFormatter),
                             author1, null);
                 } else if (group != 0) {
-                    group1 = Group.getById(group);
+                    group1 = GroupController.groupService.getById(group);
                     if (group1 == null) {
                         throw new NotFoundException("Group is not valid(404)");
                     }

@@ -30,15 +30,6 @@ public class Genre {
                 '}';
     }
 
-    public static Genre getById(int id) throws SQLException {
-        for(Genre g: GenreController.genreDao.queryForAll()){
-            if(g.getId() == id){
-                return g;
-            }
-        }
-        return null;
-    }
-
     public int getId() {
         return id;
     }

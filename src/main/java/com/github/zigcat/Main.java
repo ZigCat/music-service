@@ -52,6 +52,7 @@ public class Main {
         SimpleModule smMusic = new SimpleModule();
         smMusic.addSerializer(Music.class, new MusicSerializer());
         smMusic.addDeserializer(Music.class, new MusicDeserializer());
+        smMusic.addSerializer(Author.class, new AuthorSerializer());
         omMusic.registerModule(smMusic);
 //UserMusic ObjectMapper
         ObjectMapper omUm = new ObjectMapper();
@@ -109,6 +110,7 @@ public class Main {
         app.get("audio/:id", ctx -> UserMusicController.getById(ctx, omUm));
         app.post("audio/", ctx -> UserMusicController.addMusic(ctx, omUm));
         app.delete("audio/", ctx -> UserMusicController.delete(ctx, omUm));
-//
+//search Music
+        app.get("search/", ctx -> MusicController.advancedSearch(ctx, omMusic));
     }
 }

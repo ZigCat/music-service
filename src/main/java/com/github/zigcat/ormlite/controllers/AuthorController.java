@@ -6,6 +6,7 @@ import com.github.zigcat.DatabaseConfiguration;
 import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Author;
 import com.github.zigcat.ormlite.models.Role;
+import com.github.zigcat.services.AuthorService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -19,6 +20,7 @@ import java.util.List;
 public class AuthorController {
     public static Dao<Author, Integer> authorDao;
     private static Logger l = LoggerFactory.getLogger(AuthorController.class);
+    public static AuthorService authorService = new AuthorService();
 
     static {
         try {
@@ -31,7 +33,7 @@ public class AuthorController {
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL AUTHORS\t!!!");
         try {
-            List<Author> authorList = authorDao.queryForAll();
+            List<Author> authorList = authorService.listAll();
             l.info("&&&\tgetting info about all authors");
             ctx.result(om.writeValueAsString(authorList));
             ctx.status(200);
@@ -48,7 +50,7 @@ public class AuthorController {
         l.info("!!!\tGETTING AUTHOR BY ID\t!!!");
         int id = Integer.parseInt(ctx.pathParam("id"));
         try {
-            for(Author a: authorDao.queryForAll()){
+            for(Author a: authorService.listAll()){
                 l.info("Iterating over "+a.toString());
                 if(a.getId() == id){
                     l.info("&&&\tgetting info about "+a.toString());
@@ -97,7 +99,7 @@ public class AuthorController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Author author = om.readValue(ctx.body(), Author.class);
-            for(Author a: authorDao.queryForAll()){
+            for(Author a: authorService.listAll()){
                 l.info("Iterating over "+a.toString());
                 if(a.getId() == author.getId()){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
@@ -129,7 +131,7 @@ public class AuthorController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Author author = om.readValue(ctx.body(), Author.class);
-            for(Author a: authorDao.queryForAll()){
+            for(Author a: authorService.listAll()){
                 if(a.checkAuthor(author)){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
                         authorDao.delete(a);

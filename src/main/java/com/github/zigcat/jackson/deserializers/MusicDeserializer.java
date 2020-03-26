@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.github.zigcat.ormlite.controllers.AlbumController;
 import com.github.zigcat.ormlite.controllers.AuthorController;
 import com.github.zigcat.ormlite.controllers.GenreController;
 import com.github.zigcat.ormlite.controllers.GroupController;
@@ -54,15 +55,15 @@ public class MusicDeserializer extends StdDeserializer<Music> {
             throw new CustomException("Creation date is empty/not valid(400)");
         } else {
             try {
-                album1 = Album.getById(album);
-                genre1 = Genre.getById(genre);
+                album1 = AlbumController.albumService.getById(album);
+                genre1 = GenreController.genreService.getById(genre);
                 if(genre1 == null){
                     throw new NotFoundException("Genre is not valid(404)");
                 }
                 if(group == 0 && author == 0){
                     throw new CustomException("Creator is not valid, because song has 2 creators(400)");
                 } else if(author != 0){
-                    author1 = Author.getById(author);
+                    author1 = AuthorController.authorService.getById(author);
                     if(author1 != null){
                         return new Music(id, name, genre1 ,author1, album1, null,
                                 LocalDate.parse(creation, User.dateTimeFormatter), content);
@@ -70,7 +71,7 @@ public class MusicDeserializer extends StdDeserializer<Music> {
                         throw new NotFoundException("Author is not valid(404)");
                     }
                 } else {
-                    group1 = Group.getById(group);
+                    group1 = GroupController.groupService.getById(group);
                     if(group1 != null){
                         return new Music(id, name, genre1 ,null, album1, group1,
                                 LocalDate.parse(creation, User.dateTimeFormatter), content);

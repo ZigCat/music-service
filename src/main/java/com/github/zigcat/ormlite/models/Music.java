@@ -1,12 +1,8 @@
 package com.github.zigcat.ormlite.models;
 
-import com.github.zigcat.ormlite.controllers.MusicController;
-import com.github.zigcat.ormlite.exception.CustomException;
-import com.github.zigcat.services.Security;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 @DatabaseTable(tableName = "music")
@@ -17,16 +13,16 @@ public class Music {
     @DatabaseField
     private String name;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Genre genre;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Author author;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Group group;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Album album;
 
     @DatabaseField
@@ -34,15 +30,6 @@ public class Music {
 
     @DatabaseField
     private String content;
-
-    public static Music getById(int id) throws SQLException {
-        for(Music m: MusicController.musicDao.queryForAll()){
-            if(m.getId() == id){
-                return m;
-            }
-        }
-        throw new CustomException(Security.badRequestMessage);
-    }
 
     public Music(int id, String name, Genre genre, Author author, Album album, Group group, LocalDate creation, String content) {
         this.id = id;

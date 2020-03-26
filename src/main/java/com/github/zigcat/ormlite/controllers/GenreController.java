@@ -6,6 +6,7 @@ import com.github.zigcat.DatabaseConfiguration;
 import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Genre;
 import com.github.zigcat.ormlite.models.Role;
+import com.github.zigcat.services.GenreService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -19,6 +20,7 @@ import java.util.List;
 public class GenreController {
     public static Dao<Genre, Integer> genreDao;
     private static Logger l = LoggerFactory.getLogger(GenreController.class);
+    public static GenreService genreService = new GenreService();
 
     static {
         try {
@@ -31,7 +33,7 @@ public class GenreController {
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL GENRES\t!!!");
         try {
-            List<Genre> genreList = genreDao.queryForAll();
+            List<Genre> genreList = genreService.listAll();
             l.info("&&&\tgetting all genres");
             ctx.result(om.writeValueAsString(genreList));
             ctx.status(200);
@@ -48,7 +50,7 @@ public class GenreController {
         l.info("!!!\tGETTING GENRE BY ID\t!!!");
         int id = Integer.parseInt(ctx.body());
         try {
-            for(Genre g: genreDao.queryForAll()){
+            for(Genre g: genreService.listAll()){
                 l.info("Iterating over "+g.toString());
                 if(g.getId() == id){
                     l.info("&&&\tgetting info about "+g.toString());
@@ -97,7 +99,7 @@ public class GenreController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Genre updGenre = om.readValue(ctx.body(), Genre.class);
-            for(Genre g: genreDao.queryForAll()){
+            for(Genre g: genreService.listAll()){
                 l.info("Iterating over "+g.toString());
                 if(g.getId() == updGenre.getId()){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
@@ -129,7 +131,7 @@ public class GenreController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Genre delGenre = om.readValue(ctx.body(), Genre.class);
-            for(Genre g: genreDao.queryForAll()){
+            for(Genre g: genreService.listAll()){
                 l.info("Iterating over "+g.toString());
                 if(g.getId() == delGenre.getId()){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){

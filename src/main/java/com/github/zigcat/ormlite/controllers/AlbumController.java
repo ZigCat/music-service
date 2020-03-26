@@ -8,6 +8,7 @@ import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Album;
 import com.github.zigcat.ormlite.models.Author;
 import com.github.zigcat.ormlite.models.Role;
+import com.github.zigcat.services.AlbumService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -21,6 +22,7 @@ import java.util.List;
 public class AlbumController {
     public static Dao<Album, Integer> albumDao;
     private static Logger l = LoggerFactory.getLogger(AlbumController.class);
+    public static AlbumService albumService = new AlbumService();
 
     static {
         try {
@@ -34,7 +36,7 @@ public class AlbumController {
         l.info("!!!\tGETTING ALL ALBUMS\t!!!");
         try {
             l.info("&&&\tgetting all albums");
-            List<Album> albumList = albumDao.queryForAll();
+            List<Album> albumList = albumService.listAll();
             ctx.result(om.writeValueAsString(albumList));
             ctx.status(200);
         } catch (SQLException | JsonProcessingException e) {
@@ -49,7 +51,7 @@ public class AlbumController {
     public static void getById(Context ctx, ObjectMapper om){
         int id = Integer.parseInt(ctx.pathParam("id"));
         try {
-            for(Album a: albumDao.queryForAll()){
+            for(Album a: albumService.listAll()){
                 if(a.getId() == id){
                     l.info("&&&\tgetting info about "+ a.toString());
                     ctx.result(om.writeValueAsString(a));
@@ -99,7 +101,7 @@ public class AlbumController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Album album = om.readValue(ctx.body(), Album.class);
-            for(Album a: albumDao.queryForAll()){
+            for(Album a: albumService.listAll()){
                 l.info("Iterating over "+a.toString());
                 if(a.getId() == album.getId()){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
@@ -135,7 +137,7 @@ public class AlbumController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Album album = om.readValue(ctx.body(), Album.class);
-            for(Album a: albumDao.queryForAll()){
+            for(Album a: albumService.listAll()){
                 if(a.checkAlbum(album)){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
                         albumDao.delete(a);

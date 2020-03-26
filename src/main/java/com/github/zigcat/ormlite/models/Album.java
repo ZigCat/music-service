@@ -18,29 +18,17 @@ public class Album {
     @DatabaseField
     private String creationDate;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Author author;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Group group;
 
     private LocalDate creation;
 
     public boolean checkAlbum(Album otherAlbum){
-        if(otherAlbum.getId() == id && otherAlbum.getName().equals(name)
-                && otherAlbum.getCreationDate().equals(creationDate)){
-            return true;
-        }
-        return false;
-    }
-
-    public static Album getById(int id) throws SQLException {
-        for(Album a: AlbumController.albumDao.queryForAll()){
-            if(a.getId() == id){
-                return a;
-            }
-        }
-        return null;
+        return otherAlbum.getId() == id && otherAlbum.getName().equals(name)
+                && otherAlbum.getCreationDate().equals(creationDate);
     }
 
     public Album(int id, String name, LocalDate creation, Author author, Group group) {

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.github.zigcat.ormlite.controllers.MusicController;
+import com.github.zigcat.ormlite.controllers.UserController;
 import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.models.Music;
 import com.github.zigcat.ormlite.models.User;
@@ -42,8 +44,8 @@ public class UserMusicDeserializer extends StdDeserializer<UserMusic> {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         int id = node.get("id").asInt();
         try {
-            Music music = Music.getById(node.get("music").asInt());
-            User user = User.getById(node.get("user").asInt());
+            Music music = MusicController.musicService.getById(node.get("music").asInt());
+            User user = UserController.userService.getById(node.get("user").asInt());
             return new UserMusic(id, music, user);
         } catch (SQLException e) {
             e.printStackTrace();

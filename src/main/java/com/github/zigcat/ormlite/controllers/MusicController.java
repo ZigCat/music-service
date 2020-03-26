@@ -3,9 +3,10 @@ package com.github.zigcat.ormlite.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zigcat.DatabaseConfiguration;
+import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
-import com.github.zigcat.ormlite.models.Music;
-import com.github.zigcat.ormlite.models.Role;
+import com.github.zigcat.ormlite.models.*;
+import com.github.zigcat.services.MusicService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -17,11 +18,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MusicController {
     public static Dao<Music, Integer> musicDao;
     private static Logger l = LoggerFactory.getLogger(MusicController.class);
+    public static MusicService musicService = new MusicService();
 
     static {
         try {
@@ -34,7 +38,7 @@ public class MusicController {
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL MUSIC\t!!!");
         try {
-            List<Music> musicList = musicDao.queryForAll();
+            List<Music> musicList = musicService.listAll();
             l.info("&&&\tgetting all music");
             ctx.status(200);
             ctx.result(om.writeValueAsString(musicList));
@@ -51,7 +55,7 @@ public class MusicController {
         l.info("!!!\tGETTING MUSIC BY ID\t!!!");
         int id = Integer.parseInt(ctx.pathParam("id"));
         try {
-            for(Music m: musicDao.queryForAll()){
+            for(Music m: musicService.listAll()){
                 l.info("Iterating over "+m.toString());
                 if(m.getId() == id){
                     l.info("&&&\tgetting music file:"+m.toString());
@@ -99,7 +103,7 @@ public class MusicController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Music music = om.readValue(ctx.body(), Music.class);
-            for(Music m: musicDao.queryForAll()){
+            for(Music m: musicService.listAll()){
                 if(m.getId() == music.getId()){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
                         l.info("&&&\tcreator has access, updating music "+m.toString());
@@ -130,7 +134,7 @@ public class MusicController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             Music music = om.readValue(ctx.body(), Music.class);
-            for(Music m: musicDao.queryForAll()){
+            for(Music m: musicService.listAll()){
                 if(m.getId() == music.getId()){
                     if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
                         l.info("&&&\tcreator has access, deleting music "+m.toString());
@@ -150,6 +154,103 @@ public class MusicController {
             l.warn(Security.unauthorizedMessage);
             ctx.status(401);
             ctx.result("Generic 401 message");
+        }
+        l.info("!!!\tQUERY DONE\t!!!");
+    }
+
+    public static void advancedSearch(Context ctx, ObjectMapper om){
+        l.info("!!!\t SEARCHING MUSIC\t!!!");
+        Map map = ctx.queryParamMap();
+        ArrayList<Music> music = new ArrayList<>();
+        String name = null;
+        Author author = null;
+        Group group = null;
+        Genre genre = null;
+        try {
+            l.info("checking queryParam");
+            if(map.containsKey("author") && map.containsKey("group")
+                    && map.containsKey("genre") && map.containsKey("name")){
+                throw new CustomException("queryParam is empty");
+            }
+            if(map.containsKey("author") && !map.containsKey("group")){
+                author = AuthorController.authorService.getById(Integer.parseInt(ctx.queryParam("author")));
+                l.info("^author^ "+author.toString());
+            } else if(map.containsKey("author") && map.containsKey("group")){
+                throw new CustomException("Music can not contains Author and Group simultaneous");
+            } else if(!map.containsKey("author") && map.containsKey("group")){
+                group = GroupController.groupService.getById(Integer.parseInt(ctx.queryParam("group")));
+                l.info("^group^ "+group.toString());
+            }
+
+            if(map.containsKey("name")){
+                name = ctx.queryParam("name");
+                l.info("^name^ "+name);
+            }
+            if(map.containsKey("genre")){
+                genre = GenreController.genreService.getById(Integer.parseInt(ctx.queryParam("genre")));
+                l.info("^genre^ "+genre.toString());
+            }
+            if(name != null){
+                l.info("&&&\tdoing full search");
+                for(Music m: musicDao.queryForAll()){
+                    if(m.getName().toLowerCase().contains(name.toLowerCase())){
+                        music.add(m);
+                    }
+                }
+                if(author != null){
+                    for(Music m:music){
+                        if(!m.getAuthor().getName().toLowerCase().contains(author.getName().toLowerCase())){
+                            music.remove(m);
+                        }
+                    }
+                } else if(group != null){
+                    for(Music m:music){
+                        if(!m.getGroup().getName().toLowerCase().contains(group.getName().toLowerCase())){
+                            music.remove(m);
+                        }
+                    }
+                }
+                if(genre != null){
+                    for(Music m:music){
+                        if(!m.getGenre().getName().toLowerCase().contains(genre.getName().toLowerCase())){
+                            music.remove(m);
+                        }
+                    }
+                }
+            } else if(author != null){
+                l.info("&&&\tsearch by author");
+                for(Music m:musicDao.queryForAll()){
+                    if(!m.getAuthor().getName().toLowerCase().contains(author.getName().toLowerCase())){
+                        music.add(m);
+                    }
+                }
+            } else if(group != null){
+                l.info("&&&\tsearch by group");
+                for(Music m:musicDao.queryForAll()){
+                    if(!m.getGroup().getName().toLowerCase().contains(group.getName().toLowerCase())){
+                        music.remove(m);
+                    }
+                }
+            } else if(genre != null){
+                l.info("&&&\tsearch by genre");
+                for(Music m:musicDao.queryForAll()){
+                    if(!m.getGenre().getName().toLowerCase().contains(genre.getName().toLowerCase())){
+                        music.add(m);
+                    }
+                }
+            }
+            l.info("&&&\tgetting result");
+            ctx.result(om.writeValueAsString(music));
+            ctx.status(200);
+        } catch (SQLException | JsonProcessingException e) {
+            e.printStackTrace();
+            l.warn(Security.serverErrorMessage);
+            ctx.status(500);
+            ctx.result("Generic 500 message");
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Generic 400 message");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }

@@ -36,7 +36,9 @@ public class AuthorSerializer extends StdSerializer<Author> {
         json.writeStringField("name", author.getName());
         json.writeObjectField("group", author.getGroup());
         json.writeStringField("birthday", author.getBirthday());
-        json.writeStringField("dateOfDeath", author.getDateOfDeath());
+        if(author.getDateOfDeath() != null){
+            json.writeStringField("dateOfDeath", author.getDateOfDeath());
+        }
         json.writeStringField("description", author.getDescription());
         json.writeEndObject();
     }

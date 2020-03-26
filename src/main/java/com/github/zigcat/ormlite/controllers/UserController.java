@@ -8,6 +8,7 @@ import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.ormlite.models.User;
 import com.github.zigcat.services.Security;
+import com.github.zigcat.services.UserService;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import io.javalin.http.Context;
@@ -21,6 +22,7 @@ import java.util.List;
 public class UserController {
     public static Dao<User, Integer> userDao;
     private static Logger l = LoggerFactory.getLogger(UserController.class);
+    public static UserService userService = new UserService();
 
     static {
         try {
@@ -35,7 +37,7 @@ public class UserController {
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
         try {
-            List<User> userList = userDao.queryForAll();
+            List<User> userList = userService.listAll();
             if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
                 l.info("&&&\tgetting info as ADMIN");
                 ctx.result(omAdmin.writeValueAsString(userList));
@@ -76,7 +78,7 @@ public class UserController {
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
         try {
-            for(User u: userDao.queryForAll()){
+            for(User u: userService.listAll()){
                 l.info("Iterating over "+u.toString());
                 if(u.getId() == id){
                     if(u.checkUser(Security.authorize(login, password))
@@ -139,7 +141,7 @@ public class UserController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             User updUser = om.readValue(ctx.body(), User.class);
-            for(User u: userDao.queryForAll()){
+            for(User u: userService.listAll()){
                 l.info("Iterating over "+u.toString());
                 if(u.getId() == updUser.getId()){
                     if(u.checkUser(Security.authorize(login, password))){
@@ -171,7 +173,7 @@ public class UserController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             User delUser = om.readValue(ctx.body(), User.class);
-            for(User u: userDao.queryForAll()){
+            for(User u: userService.listAll()){
                 l.info("Iterating over "+u.toString());
                 if(u.checkUser(delUser)){
                     if(u.checkUser(Security.authorize(login, password))){

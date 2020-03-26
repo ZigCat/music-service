@@ -6,6 +6,7 @@ import com.github.zigcat.DatabaseConfiguration;
 import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.UserMusic;
 import com.github.zigcat.services.Security;
+import com.github.zigcat.services.UserMusicService;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import io.javalin.http.Context;
@@ -18,6 +19,7 @@ import java.util.List;
 public class UserMusicController {
     public static Dao<UserMusic, Integer> umDao;
     private static Logger l = LoggerFactory.getLogger(UserMusicController.class);
+    public static UserMusicService umService = new UserMusicService();
 
     static {
         try {
@@ -30,7 +32,7 @@ public class UserMusicController {
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL USERMUSIC\t!!!");
         try {
-            List<UserMusic> umList = umDao.queryForAll();
+            List<UserMusic> umList = umService.listAll();
             l.info("&&&\tgetting all usermusic");
             ctx.status(200);
             ctx.result(om.writeValueAsString(umList));
@@ -47,7 +49,7 @@ public class UserMusicController {
         l.info("!!!\tGETTING USERMUSIC BY ID\t!!!");
         int id = Integer.parseInt(ctx.pathParam("id"));
         try {
-            for(UserMusic um : umDao.queryForAll()){
+            for(UserMusic um : umService.listAll()){
                 l.info("Iterating over "+um.toString());
                 if(um.getId() == id){
                     l.info("&&&\tgetting info about "+um.toString());
@@ -99,7 +101,7 @@ public class UserMusicController {
         String password = ctx.basicAuthCredentials().getPassword();
         try {
             UserMusic delUm = om.readValue(ctx.body(), UserMusic.class);
-            for(UserMusic um: umDao.queryForAll()){
+            for(UserMusic um: umService.listAll()){
                 l.info("Iterating over "+um.toString());
                 if(um.getId() == delUm.getId()){
                     if(um.getUser().checkUser(Security.authorize(login, password))){

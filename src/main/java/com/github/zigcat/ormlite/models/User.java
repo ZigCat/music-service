@@ -65,20 +65,7 @@ public class User {
     }
 
     public boolean checkUser(User otherUser) throws NullPointerException{
-        if(otherUser.getId() == id && otherUser.getName().equals(name) && otherUser.getSurname().equals(surname)){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static User getById(int id) throws SQLException {
-        for(User u: UserController.userDao.queryForAll()){
-            if(u.getId() == id){
-                return u;
-            }
-        }
-        throw new CustomException(Security.badRequestMessage);
+        return otherUser.getId() == id && otherUser.getName().equals(name) && otherUser.getSurname().equals(surname);
     }
 
     @Override
