@@ -1,0 +1,965 @@
+{
+	"info": {
+		"_postman_id": "18ddb5b8-e617-437a-8f32-2d28b7dc08ee",
+		"name": "music_service",
+		"description": "###Collection to my project **Music Service**\nyou have to create admin with:\n> *login*:\"admin\";\n> *password*:\"0000\";",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "album",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/album/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"album",
+								""
+							]
+						},
+						"description": "getting all albums"
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/album/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"album",
+								"1"
+							]
+						},
+						"description": "getting album by id"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"The Last Stand\",\r\n    \"creationDate\": \"2016 08 19\",\r\n    \"author\": null,\r\n    \"group\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/album/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"album",
+								""
+							]
+						},
+						"description": "create new album(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"The Last Stand\",\r\n    \"creationDate\": \"2016 08 19\",\r\n    \"author\": null,\r\n    \"group\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/album/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"album",
+								""
+							]
+						},
+						"description": "updating album(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"name\": \"The Last Stand\",\n    \"creationDate\": \"2016 08 19\",\n    \"author\": null,\n    \"group\":1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/album/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"album",
+								""
+							]
+						},
+						"description": "deleting album(access has only admin)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "author",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/author/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"author",
+								""
+							]
+						},
+						"description": "getting all authors"
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/author/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"author",
+								"1"
+							]
+						},
+						"description": "getting author by id"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"James Alan Hetfield\",\r\n    \"group\":1,\r\n    \"birthday\": \"1963 08 03\",\r\n    \"description\": \"американский рок-музыкант; вокалист и ритм-гитарист метал-группы Metallica.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/author/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"author",
+								""
+							]
+						},
+						"description": "creating author(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"James Alan Hetfield\",\r\n    \"group\":1,\r\n    \"birthday\": \"1963 08 03\",\r\n    \"description\": \"американский рок-музыкант; вокалист и ритм-гитарист метал-группы Metallica.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/author/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"author",
+								""
+							]
+						},
+						"description": "updating author(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"James Alan Hetfield\",\r\n    \"group\":1,\r\n    \"birthday\": \"1963 08 03\",\r\n    \"description\": \"американский рок-музыкант; вокалист и ритм-гитарист метал-группы Metallica.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/author/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"author",
+								""
+							]
+						},
+						"description": "deleting author(access has only admin)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "genre",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/genre/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								""
+							]
+						},
+						"description": "get all genres"
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/genre/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								"1"
+							]
+						},
+						"description": "getting genre by id"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Trash Metall\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/genre/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								""
+							]
+						},
+						"description": "create genre(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Trash Metall\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/genre/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								""
+							]
+						},
+						"description": "update genre(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Trash Metall\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/genre/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								""
+							]
+						},
+						"description": "delete genre(access has only admin)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "group",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/group/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"group",
+								""
+							]
+						},
+						"description": "getting all groups"
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/group/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"group",
+								"1"
+							]
+						},
+						"description": "getting group by id"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Sabaton\",\r\n    \"creationDate\": \"1999 12 01\",\r\n    \"dateOfDestroy\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/group/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"group",
+								""
+							]
+						},
+						"description": "create group(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Sabaton\",\r\n    \"creationDate\": \"1999 12 01\",\r\n    \"dateOfDestroy\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/group/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"group",
+								""
+							]
+						},
+						"description": "updating group(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Sabaton\",\r\n    \"creationDate\": \"1999 12 01\",\r\n    \"dateOfDestroy\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/group/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"group",
+								""
+							]
+						},
+						"description": "deleting group(access has only admin)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "music",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/music/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"music",
+								""
+							]
+						},
+						"description": "getting all music"
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/music/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"music",
+								"1"
+							]
+						},
+						"description": "getting music by id"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Motorbreath\",\r\n    \"creationDate\": \"1983 07 25\",\r\n    \"genre\": 1,\r\n    \"author\": 1,\r\n    \"group\": 2,\r\n    \"album\": 2,\r\n    \"content\": \"C:\\\\music files\\\\Metallica - Motorbreath.mp3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/music/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"music",
+								""
+							]
+						},
+						"description": "create music(access has only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Motorbreath\",\r\n    \"creationDate\": \"1983 07 25\",\r\n    \"genre\": 1,\r\n    \"author\": 1,\r\n    \"group\": 2,\r\n    \"album\": 2,\r\n    \"content\": \"C:\\\\music files\\\\Metallica - Motorbreath.mp3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/music/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"music",
+								""
+							]
+						},
+						"description": "updating music(access hasa only admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Motorbreath\",\r\n    \"creationDate\": \"1983 07 25\",\r\n    \"genre\": 1,\r\n    \"author\": 1,\r\n    \"group\": 2,\r\n    \"album\": 2,\r\n    \"content\": \"C:\\\\music files\\\\Metallica - Motorbreath.mp3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/music/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"music",
+								""
+							]
+						},
+						"description": "deleting music(access has only admin)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/user/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"user",
+								""
+							]
+						},
+						"description": "getting user by id, if you want to see full info, you need Auth"
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/user/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"user",
+								"1"
+							]
+						},
+						"description": "getting all users"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"admin\",\r\n    \"surname\": \"admin\",\r\n    \"email\": \"admin\",\r\n    \"password\":\"0000\",\r\n    \"registration_date\": \"2020 03 08\",\r\n    \"role\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/user/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"user",
+								""
+							]
+						},
+						"description": "creating new user, you don't need auth."
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"admin\",\r\n    \"surname\": \"admin\",\r\n    \"email\": \"admin\",\r\n    \"password\":\"0000\",\r\n    \"registration_date\": \"2020 03 08\",\r\n    \"role\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/user/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"user",
+								""
+							]
+						},
+						"description": "update user, that was authorized"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"admin\",\r\n    \"surname\": \"admin\",\r\n    \"email\": \"admin\",\r\n    \"password\":\"0000\",\r\n    \"registration_date\": \"2020 03 08\",\r\n    \"role\": \"ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/user/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"user",
+								""
+							]
+						},
+						"description": "deleting user that was authorized"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "user_music",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "0000",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/audio/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"audio",
+								""
+							]
+						},
+						"description": "getting all relations of user that was authorized "
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/audio/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"audio",
+								"1"
+							]
+						},
+						"description": "getting relation of user that was authorized by id"
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":1,\n\t\"user\":1,\n\t\"music\":2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/audio/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"audio",
+								""
+							]
+						},
+						"description": "create relation(access has only authorized user)"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":1,\n\t\"user\":1,\n\t\"music\":2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/audio/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"audio",
+								""
+							]
+						},
+						"description": "deleting relation(access has only authorized user)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "0000",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "db2480c4-4fe6-40ae-b117-5e62ddf509c1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "87b6e421-9647-42b0-a799-e49fe107cde4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
