@@ -63,8 +63,12 @@ public class Main {
         smUm.addDeserializer(UserMusic.class, new UserMusicDeserializer());
         omUm.registerModule(smUm);
 //starting app
-        Javalin app = Javalin.create();
-        app.config = new JavalinConfig().enableDevLogging();
+        Javalin app = Javalin.create(javalinConfig -> {
+            javalinConfig.enableCorsForAllOrigins();
+            javalinConfig.enableDevLogging();
+            javalinConfig.defaultContentType = "application/json";
+            javalinConfig.prefer405over404 = true;
+        });
         app.start(34567);
 //implementing app's methods
 //user CRUD

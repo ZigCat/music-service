@@ -20,7 +20,7 @@ public class AlbumService {
     }
 
     public Album getById(int id) throws SQLException {
-        l.info("@@@\tgetting author by id");
+        l.info("@@@\tgetting author by id"); //??? Getting Author? TODO(Solomon) fix the typo
         for(Album a: AlbumController.albumDao.queryForAll()){
             l.info("Iterating over "+a.toString());
             if(a.getId() == id){
