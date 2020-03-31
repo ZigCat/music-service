@@ -199,20 +199,20 @@ public class MusicController {
                 }
                 if(author != null){
                     for(Music m:music){
-                        if(!m.getAuthor().getName().toLowerCase().contains(author.getName().toLowerCase())){
+                        if(m.getAuthor().getId() != author.getId()){
                             music.remove(m);
                         }
                     }
                 } else if(group != null){
                     for(Music m:music){
-                        if(!m.getGroup().getName().toLowerCase().contains(group.getName().toLowerCase())){
+                        if(m.getGroup().getId() != group.getId()){
                             music.remove(m);
                         }
                     }
                 }
                 if(genre != null){
                     for(Music m:music){
-                        if(!m.getGenre().getName().toLowerCase().contains(genre.getName().toLowerCase())){
+                        if(m.getGenre().getId() != genre.getId()){
                             music.remove(m);
                         }
                     }
@@ -220,21 +220,22 @@ public class MusicController {
             } else if(author != null){
                 l.info("&&&\tsearch by author");
                 for(Music m:musicDao.queryForAll()){
-                    if(!m.getAuthor().getName().toLowerCase().contains(author.getName().toLowerCase())){
+                    if(m.getAuthor() != null && m.getAuthor().getId() == author.getId()){
                         music.add(m);
                     }
                 }
             } else if(group != null){
                 l.info("&&&\tsearch by group");
                 for(Music m:musicDao.queryForAll()){
-                    if(!m.getGroup().getName().toLowerCase().contains(group.getName().toLowerCase())){
-                        music.remove(m);
+                    l.info("Iterating over "+m.toString());
+                    if(m.getGroup() != null && m.getGroup().getId() == group.getId()){
+                        music.add(m);
                     }
                 }
             } else if(genre != null){
                 l.info("&&&\tsearch by genre");
                 for(Music m:musicDao.queryForAll()){
-                    if(!m.getGenre().getName().toLowerCase().contains(genre.getName().toLowerCase())){
+                    if(m.getGenre().getId() == genre.getId()){
                         music.add(m);
                     }
                 }
@@ -251,6 +252,10 @@ public class MusicController {
             l.warn(Security.badRequestMessage);
             ctx.status(400);
             ctx.result("Generic 400 message");
+        } catch (NumberFormatException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param(400 message)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }

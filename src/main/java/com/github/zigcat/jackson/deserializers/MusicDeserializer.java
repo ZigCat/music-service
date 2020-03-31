@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.github.zigcat.ormlite.controllers.AlbumController;
 import com.github.zigcat.ormlite.controllers.AuthorController;
 import com.github.zigcat.ormlite.controllers.GenreController;
@@ -46,7 +47,6 @@ public class MusicDeserializer extends StdDeserializer<Music> {
         int group = node.get("group").asInt();
         String creation = node.get("creationDate").asText();
         String content = node.get("content").asText();
-        int album = node.get("album").asInt();
         Album album1;
         Genre genre1;
         Author author1;
@@ -55,7 +55,12 @@ public class MusicDeserializer extends StdDeserializer<Music> {
             throw new CustomException("Creation date is empty/not valid(400)");
         } else {
             try {
-                album1 = AlbumController.albumService.getById(album);
+                if(node.get("album") instanceof NullNode || node.get("album") == null){
+                    album1 = null;
+                } else {
+                    int album = node.get("album").asInt();
+                    album1 = AlbumController.albumService.getById(album);
+                }
                 genre1 = GenreController.genreService.getById(genre);
                 if(genre1 == null){
                     throw new NotFoundException("Genre is not valid(404)");

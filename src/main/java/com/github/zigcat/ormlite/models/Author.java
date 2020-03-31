@@ -29,8 +29,7 @@ public class Author {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Group group;
 
-    private LocalDate birth;
-    private LocalDate death;
+
     private static Logger l = LoggerFactory.getLogger(Author.class);
 
     @Override
@@ -38,7 +37,6 @@ public class Author {
         return "Author{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", group=" + group.getId() +
                 ", birthday='" + birthday + '\'';
     }
 
@@ -105,22 +103,6 @@ public class Author {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public LocalDate getBirth() {
-        return birth;
-    }
-
-    public void setBirth(LocalDate birth) {
-        this.birth = birth;
-    }
-
-    public LocalDate getDeath() {
-        return death;
-    }
-
-    public void setDeath(LocalDate death) {
-        this.death = death;
     }
 
     public Group getGroup() {

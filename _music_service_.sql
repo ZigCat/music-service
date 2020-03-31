@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2020 at 12:48 PM
+-- Generation Time: Mar 31, 2020 at 10:22 AM
 -- Server version: 5.5.25
 -- PHP Version: 5.3.13
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `album` (
   `author_id` int(11) DEFAULT NULL,
   `group_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `album`
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS `album` (
 
 INSERT INTO `album` (`id`, `name`, `creationDate`, `author_id`, `group_id`) VALUES
 (1, 'The Last Stand', '2016 08 19', NULL, 1),
-(2, 'The Last Stand', '2016 08 19', NULL, 1),
-(3, 'Kill em All', '1983 07 25', NULL, 2);
+(3, 'Kill em All', '1983 07 25', NULL, 2),
+(4, 'That''s Life', '1966 01 01', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `author` (
   `description` varchar(255) DEFAULT NULL,
   `group_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `author`
@@ -66,7 +66,8 @@ CREATE TABLE IF NOT EXISTS `author` (
 
 INSERT INTO `author` (`id`, `name`, `birthday`, `dateOfDeath`, `description`, `group_id`) VALUES
 (1, 'James Alan Hetfield', '1963 08 03', NULL, 'американский рок-музыкант; вокалист и ритм-гитарист метал-группы Metallica.', 2),
-(2, 'Joakim Broden', '1980 10 05', NULL, ' шведско-чешский музыкант, вокалист, фронтмен, автор текстов песен и музыки шведской хэви-пауэр-метал-группы Sabaton.', 1);
+(2, 'Joakim Broden', '1980 10 05', NULL, ' шведско-чешский музыкант, вокалист, фронтмен, автор текстов песен и музыки шведской хэви-пауэр-метал-группы Sabaton.', 1),
+(3, 'Frank Sinatra', '1915 12 12', '1998 05 14', 'американский киноактёр, кинорежиссёр, продюсер, шоумен, певец (крунер). Одиннадцать раз становился лауреатом премии «Грэмми»', NULL);
 
 -- --------------------------------------------------------
 
@@ -78,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `genre` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `genre`
@@ -86,7 +87,8 @@ CREATE TABLE IF NOT EXISTS `genre` (
 
 INSERT INTO `genre` (`id`, `name`) VALUES
 (1, 'Trash Metall'),
-(2, 'Power Metall');
+(2, 'Power Metall'),
+(3, 'Pop');
 
 -- --------------------------------------------------------
 
@@ -126,15 +128,16 @@ CREATE TABLE IF NOT EXISTS `music` (
   `creationDate` varchar(255) DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `music`
 --
 
 INSERT INTO `music` (`id`, `name`, `genre_id`, `author_id`, `group_id`, `album_id`, `creationDate`, `content`) VALUES
-(1, 'Motorbreath', 1, NULL, 2, 2, '1983 07 25', 'C:\\music files\\Metallica - Motorbreath.mp3'),
-(2, 'Rorke''s Drift', 2, NULL, 1, 1, '2016 08 19', 'C:\\music files\\Sabaton - Rorke''s Drift.mp3');
+(1, 'Motorbreath', 1, NULL, 2, NULL, '1983 07 25', 'C:\\music files\\Metallica - Motorbreath.mp3'),
+(2, 'Rorke''s Drift', 2, NULL, 1, 1, '2016 08 19', 'C:\\music files\\Sabaton - Rorke''s Drift.mp3'),
+(3, 'that''s Life', 3, 3, NULL, 4, '1966 01 01', 'C:\\music files\\Metallica - Motorbreath.mp3');
 
 -- --------------------------------------------------------
 

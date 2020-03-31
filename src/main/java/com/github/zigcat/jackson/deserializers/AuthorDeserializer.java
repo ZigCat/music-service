@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.github.zigcat.ormlite.controllers.AuthorController;
 import com.github.zigcat.ormlite.controllers.GroupController;
 import com.github.zigcat.ormlite.exception.CustomException;
@@ -44,9 +45,14 @@ public class AuthorDeserializer extends StdDeserializer<Author> {
         String birthday = node.get("birthday").asText();
         String dateOfDeath = node.get("dateOfDeath").asText();
         String description = node.get("description").asText();
+        Group group1 = new Group();
         try {
-            int group = node.get("group").asInt();
-            Group group1 = GroupController.groupService.getById(group);
+            if(node.get("group") instanceof NullNode || node.get("group") == null){
+                group1 = null;
+            } else {
+                int group = node.get("group").asInt();
+                group1 = GroupController.groupService.getById(group);
+            }
             if(!Security.isValidDate(birthday)){
                 throw new CustomException("Creation date is empty/not valid(400)");
             }

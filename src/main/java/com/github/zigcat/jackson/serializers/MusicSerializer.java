@@ -42,9 +42,9 @@ public class MusicSerializer extends StdSerializer<Music> {
             json.writeStringField("name", music.getName());
             json.writeStringField("creationDate", music.getCreationDate());
             json.writeObjectField("genre", GenreController.genreService.getById(music.getGenre().getId()));
-            json.writeObjectField("author", AuthorController.authorService.getById(music.getAuthor().getId()));
-            json.writeObjectField("group", GroupController.groupService.getById(music.getGroup().getId()));
-            json.writeObjectField("album", AlbumController.albumService.getById(music.getAlbum().getId()));
+            json.writeObjectField("author", music.getAuthor());
+            json.writeObjectField("group", music.getGroup());
+            json.writeObjectField("album", music.getAlbum());
             json.writeStringField("content", music.getContent());
             json.writeEndObject();
         } catch (SQLException e) {
