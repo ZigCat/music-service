@@ -23,45 +23,35 @@ public class Main {
         smUserAdmin.addDeserializer(User.class, new UserDeserializer());
         smUserAdmin.addSerializer(User.class, new UserAdminSerializer());
         omUserAdmin.registerModule(smUserAdmin);
-//Author ObjectMapper
-        ObjectMapper omAuthor = new ObjectMapper();
-        SimpleModule smAuthor = new SimpleModule();
-        smAuthor.addSerializer(Author.class, new AuthorSerializer());
-        smAuthor.addDeserializer(Author.class, new AuthorDeserializer());
-        omAuthor.registerModule(smAuthor);
-//Album ObjectMapper
-        ObjectMapper omAlbum = new ObjectMapper();
-        SimpleModule smAlbum = new SimpleModule();
-        smAlbum.addDeserializer(Album.class, new AlbumDeserializer());
-        smAlbum.addSerializer(Album.class, new AlbumSerializer());
-        omAlbum.registerModule(smAlbum);
-//Group ObjectMapper
-        ObjectMapper omGroup = new ObjectMapper();
-        SimpleModule smGroup = new SimpleModule();
-        smGroup.addSerializer(Group.class, new GroupSerializer());
-        smGroup.addDeserializer(Group.class, new GroupDeserializer());
-        omGroup.registerModule(smGroup);
-//Genre ObjectMapper
-        ObjectMapper omGenre = new ObjectMapper();
-        SimpleModule smGenre = new SimpleModule();
-        smGenre.addDeserializer(Genre.class, new GenreDeserializer());
-        smGenre.addSerializer(Genre.class, new GenreSerializer());
-        omGenre.registerModule(smGenre);
-//Music ObjectMapper
-        ObjectMapper omMusic = new ObjectMapper();
-        SimpleModule smMusic = new SimpleModule();
-        smMusic.addSerializer(Music.class, new MusicSerializer());
-        smMusic.addDeserializer(Music.class, new MusicDeserializer());
-        smMusic.addSerializer(Author.class, new AuthorSerializer());
-        omMusic.registerModule(smMusic);
-//UserMusic ObjectMapper
-        ObjectMapper omUm = new ObjectMapper();
-        SimpleModule smUm = new SimpleModule();
-        smUm.addSerializer(User.class, new UserSerializer());
-        smUm.addSerializer(Music.class, new MusicSerializer());
-        smUm.addSerializer(UserMusic.class, new UserMusicSerializer());
-        smUm.addDeserializer(UserMusic.class, new UserMusicDeserializer());
-        omUm.registerModule(smUm);
+//Other Entity's ObjectMapper
+        ObjectMapper om = new ObjectMapper();
+        SimpleModule sm = new SimpleModule();
+        //serializers
+        sm.addSerializer(Album.class, new AlbumSerializer());
+        sm.addSerializer(AuthorGroup.class, new AuthorGroupSerializer());
+        sm.addSerializer(Author.class, new AuthorSerializer());
+        sm.addSerializer(CategoryGenre.class, new CategoryGenreSerializer());
+        sm.addSerializer(Category.class, new CategorySerializer());
+        sm.addSerializer(Genre.class, new GenreSerializer());
+        sm.addSerializer(Group.class, new GroupSerializer());
+        sm.addSerializer(Music.class, new MusicSerializer());
+        sm.addSerializer(TagAlbum.class, new TagAlbumSerializer());
+        sm.addSerializer(Tag.class, new TagSerializer());
+        sm.addSerializer(UserMusic.class, new UserMusicSerializer());
+        //deserializers
+        sm.addDeserializer(Album.class, new AlbumDeserializer());
+        sm.addDeserializer(AuthorGroup.class, new AuthorGroupDeserializer());
+        sm.addDeserializer(Author.class, new AuthorDeserializer());
+        sm.addDeserializer(CategoryGenre.class, new CategoryGenreDeserializer());
+        sm.addDeserializer(Category.class, new CategoryDeserializer());
+        sm.addDeserializer(Genre.class, new GenreDeserializer());
+        sm.addDeserializer(Group.class, new GroupDeserializer());
+        sm.addDeserializer(Music.class, new MusicDeserializer());
+        sm.addDeserializer(TagAlbum.class, new TagAlbumDeserializer());
+        sm.addDeserializer(Tag.class, new TagDeserializer());
+        sm.addDeserializer(UserMusic.class, new UserMusicDeserializer());
+        //registering module
+        om.registerModule(sm);
 //starting app
         Javalin app = Javalin.create();
         app.config = new JavalinConfig().enableDevLogging();
@@ -73,44 +63,68 @@ public class Main {
         app.post("user/", ctx -> UserController.create(ctx, omUser));
         app.patch("user/", ctx -> UserController.update(ctx, omUser));
         app.delete("user/", ctx -> UserController.delete(ctx, omUser));
-        //app.exception(IllegalArgumentException.class, (e, ctx) ->{ctx.status(403);})
-                //.error(403, ctx -> {ctx.result("Generic 403 message");});
+        app.exception(IllegalArgumentException.class, (e, ctx) ->{ctx.status(403);})
+                .error(403, ctx -> ctx.result("Generic 403 message"));
 //author CRUD
-        app.get("author/", ctx -> AuthorController.getAll(ctx, omAuthor));
-        app.get("author/:id", ctx -> AuthorController.getById(ctx, omAuthor));
-        app.post("author/", ctx -> AuthorController.create(ctx, omAuthor));
-        app.patch("author/", ctx -> AuthorController.update(ctx, omAuthor));
-        app.delete("author/", ctx -> AuthorController.delete(ctx, omAuthor));
+        app.get("author/", ctx -> AuthorController.getAll(ctx, om));
+        app.get("author/:id", ctx -> AuthorController.getById(ctx, om));
+        app.post("author/", ctx -> AuthorController.create(ctx, om));
+        app.patch("author/", ctx -> AuthorController.update(ctx, om));
+        app.delete("author/", ctx -> AuthorController.delete(ctx, om));
 //album CRUD
-        app.get("album/", ctx -> AlbumController.getAll(ctx, omAlbum));
-        app.get("album/:id", ctx -> AlbumController.getById(ctx, omAlbum));
-        app.post("album/", ctx -> AlbumController.create(ctx, omAlbum));
-        app.patch("album/", ctx -> AlbumController.update(ctx, omAlbum));
-        app.delete("album/", ctx -> AlbumController.delete(ctx, omAlbum));
+        app.get("album/", ctx -> AlbumController.getAll(ctx, om));
+        app.get("album/:id", ctx -> AlbumController.getById(ctx, om));
+        app.post("album/", ctx -> AlbumController.create(ctx, om));
+        app.patch("album/", ctx -> AlbumController.update(ctx, om));
+        app.delete("album/", ctx -> AlbumController.delete(ctx, om));
 //group CRUD
-        app.get("group/", ctx -> GroupController.getAll(ctx, omGroup));
-        app.get("group/:id", ctx -> GroupController.getById(ctx, omGroup));
-        app.post("group/", ctx -> GroupController.create(ctx, omGroup));
-        app.patch("group/", ctx -> GroupController.update(ctx, omGroup));
-        app.delete("group/", ctx -> GroupController.delete(ctx, omGroup));
+        app.get("group/", ctx -> GroupController.getAll(ctx, om));
+        app.get("group/:id", ctx -> GroupController.getById(ctx, om));
+        app.post("group/", ctx -> GroupController.create(ctx, om));
+        app.patch("group/", ctx -> GroupController.update(ctx, om));
+        app.delete("group/", ctx -> GroupController.delete(ctx, om));
 //genre CRUD
-        app.get("genre/", ctx -> GenreController.getAll(ctx, omGenre));
-        app.get("genre/:id", ctx -> GenreController.getById(ctx, omGenre));
-        app.post("genre/", ctx -> GenreController.create(ctx, omGenre));
-        app.patch("genre/", ctx -> GenreController.update(ctx, omGenre));
-        app.delete("genre/", ctx -> GenreController.delete(ctx, omGenre));
+        app.get("genre/", ctx -> GenreController.getAll(ctx, om));
+        app.get("genre/:id", ctx -> GenreController.getById(ctx, om));
+        app.post("genre/", ctx -> GenreController.create(ctx, om));
+        app.patch("genre/", ctx -> GenreController.update(ctx, om));
+        app.delete("genre/", ctx -> GenreController.delete(ctx, om));
 //music CRUD
-        app.get("music/", ctx -> MusicController.getAll(ctx, omMusic));
-        app.get("music/:id", ctx -> MusicController.getById(ctx, omMusic));
-        app.post("music/", ctx -> MusicController.create(ctx, omMusic));
-        app.patch("music/", ctx -> MusicController.update(ctx, omMusic));
-        app.delete("music/", ctx -> MusicController.delete(ctx, omMusic));
+        app.get("music/", ctx -> MusicController.getAll(ctx, om));
+        app.get("music/:id", ctx -> MusicController.getById(ctx, om));
+        app.post("music/", ctx -> MusicController.create(ctx, om));
+        app.patch("music/", ctx -> MusicController.update(ctx, om));
+        app.delete("music/", ctx -> MusicController.delete(ctx, om));
 //userMusic CRUD
-        app.get("audio/", ctx -> UserMusicController.getAll(ctx, omUm));
-        app.get("audio/:id", ctx -> UserMusicController.getById(ctx, omUm));
-        app.post("audio/", ctx -> UserMusicController.addMusic(ctx, omUm));
-        app.delete("audio/", ctx -> UserMusicController.delete(ctx, omUm));
+        app.get("audio/", ctx -> UserMusicController.getAll(ctx, om));
+        app.get("audio/:id", ctx -> UserMusicController.getById(ctx, om));
+        app.post("audio/", ctx -> UserMusicController.addMusic(ctx, om));
+        app.delete("audio/", ctx -> UserMusicController.delete(ctx, om));
 //search Music
-        app.get("search/", ctx -> MusicController.advancedSearch(ctx, omMusic));
+        app.get("search/", ctx -> MusicController.advancedSearch(ctx, om));
+//authorGroup CRUD
+        app.get("author/group/", ctx -> AuthorGroupController.getAll(ctx, om));
+        app.get("author/group/:id", ctx -> AuthorGroupController.getById(ctx, om));
+        app.post("author/group/", ctx -> AuthorGroupController.create(ctx, om));
+        app.patch("author/group/", ctx -> AuthorGroupController.update(ctx, om));
+        app.delete("author/group/", ctx -> AuthorGroupController.delete(ctx, om));
+//Tag CRUD
+        app.get("tag/", ctx -> TagController.getAll(ctx, om));
+        app.get("tag/:id", ctx -> TagController.getById(ctx, om));
+        app.post("tag/", ctx -> TagController.create(ctx, om));
+        app.patch("tag/", ctx -> TagController.update(ctx, om));
+        app.delete("tag/", ctx -> TagController.delete(ctx, om));
+//TagAlbum CRUD
+        app.get("album/tag/", ctx -> TagAlbumController.getAll(ctx, om));
+        app.get("album/tag/:id", ctx -> TagAlbumController.getById(ctx, om));
+        app.post("album/tag/", ctx -> TagAlbumController.create(ctx, om));
+        app.patch("album/tag/", ctx -> TagAlbumController.update(ctx, om));
+        app.delete("album/tag/", ctx -> TagAlbumController.delete(ctx, om));
+//Category CRUD
+        app.get("category/", ctx -> CategoryController.getAll(ctx, om));
+        app.get("category/:id", ctx -> CategoryController.getById(ctx, om));
+        app.post("category/", ctx -> CategoryController.create(ctx, om));
+        app.patch("category/", ctx -> CategoryController.update(ctx, om));
+        app.delete("category/", ctx -> CategoryController.delete(ctx, om));
     }
 }

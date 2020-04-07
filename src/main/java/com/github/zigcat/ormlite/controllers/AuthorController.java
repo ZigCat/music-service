@@ -3,7 +3,9 @@ package com.github.zigcat.ormlite.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zigcat.DatabaseConfiguration;
+import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
+import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Author;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.services.AuthorService;
@@ -79,16 +81,24 @@ public class AuthorController {
                 authorDao.create(author);
                 ctx.result(om.writeValueAsString(author));
                 ctx.status(201);
+            } else {
+                ctx.result("Access denied");
+                l.warn(Security.unauthorizedMessage);
+                ctx.status(403);
             }
-        } catch (JsonProcessingException | SQLException e) {
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
             e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -109,18 +119,26 @@ public class AuthorController {
                         ctx.status(200);
                         l.info("&&&\tauthor updated to "+author.toString());
                         break;
+                    } else {
+                        ctx.result("Access denied");
+                        l.warn(Security.unauthorizedMessage);
+                        ctx.status(403);
                     }
                 }
             }
-        } catch (JsonProcessingException | SQLException e) {
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             e.printStackTrace();
             l.warn(Security.serverErrorMessage);
             ctx.result("Generic 500 message");
             ctx.status(500);
-        } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+        }catch (NotFoundException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -139,18 +157,26 @@ public class AuthorController {
                         ctx.result(om.writeValueAsString(a));
                         ctx.status(200);
                         break;
+                    } else {
+                        ctx.result("Access denied");
+                        l.warn(Security.unauthorizedMessage);
+                        ctx.status(403);
                     }
                 }
             }
-        } catch (JsonProcessingException | SQLException e) {
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             e.printStackTrace();
             l.warn(Security.serverErrorMessage);
             ctx.status(500);
             ctx.result("Generic 500 message");
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
     }
 }

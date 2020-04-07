@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zigcat.DatabaseConfiguration;
 import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
+import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.*;
 import com.github.zigcat.services.MusicService;
 import com.github.zigcat.services.Security;
@@ -84,15 +85,19 @@ public class MusicController {
                 ctx.result(om.writeValueAsString(music));
                 musicDao.create(music);
             }
-        } catch (JsonProcessingException | SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.serverErrorMessage);
-            ctx.result("Generic 500 message");
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
+            ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
+            e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+            l.warn(Security.badRequestMessage);
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -115,15 +120,19 @@ public class MusicController {
                     }
                 }
             }
-        } catch (JsonProcessingException | SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.serverErrorMessage);
-            ctx.result("Generic 500 message");
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
+            ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
+            e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+            l.warn(Security.badRequestMessage);
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -145,15 +154,19 @@ public class MusicController {
                     }
                 }
             }
-        }  catch (JsonProcessingException | SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.serverErrorMessage);
-            ctx.result("Generic 500 message");
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
+            ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
+            e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+            l.warn(Security.badRequestMessage);
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -243,7 +256,7 @@ public class MusicController {
             l.info("&&&\tgetting result");
             ctx.result(om.writeValueAsString(music));
             ctx.status(200);
-        } catch (SQLException | JsonProcessingException e) {
+        } catch (SQLException | JsonProcessingException | RedirectionException e) {
             e.printStackTrace();
             l.warn(Security.serverErrorMessage);
             ctx.status(500);
@@ -252,6 +265,10 @@ public class MusicController {
             l.warn(Security.badRequestMessage);
             ctx.status(400);
             ctx.result("Generic 400 message");
+        } catch (NotFoundException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
         } catch (NumberFormatException e){
             l.warn(Security.badRequestMessage);
             ctx.status(400);

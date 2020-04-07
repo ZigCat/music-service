@@ -41,17 +41,21 @@ public class GroupDeserializer extends StdDeserializer<Group> {
     @Override
     public Group deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        int id = node.get("id").asInt();
-        String name = node.get("name").asText();
-        String creation = node.get("creationDate").asText();
-        String destroy = node.get("dateOfDestroy").asText();
-        if(!Security.isValidDate(creation)){
-            throw new CustomException("Creation date is empty/wrong(400)");
+        try {
+            int id = node.get("id").asInt();
+            String name = node.get("name").asText();
+            String creation = node.get("creationDate").asText();
+            String destroy = node.get("dateOfDestroy").asText();
+            if(!Security.isValidDate(creation)){
+                throw new CustomException("Creation date is empty/wrong(400)");
+            }
+            if(!Security.isValidDate(destroy)){
+                return new Group(id, name, LocalDate.parse(creation, User.dateTimeFormatter));
+            }
+            return new Group(id, name, LocalDate.parse(creation, User.dateTimeFormatter),
+                    LocalDate.parse(destroy, User.dateTimeFormatter));
+        } catch (NullPointerException e){
+            throw new CustomException("One of NotNull param is Null(400)");
         }
-        if(!Security.isValidDate(destroy)){
-            return new Group(id, name, LocalDate.parse(creation, User.dateTimeFormatter));
-        }
-        return new Group(id, name, LocalDate.parse(creation, User.dateTimeFormatter),
-                LocalDate.parse(destroy, User.dateTimeFormatter));
     }
 }

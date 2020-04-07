@@ -16,7 +16,7 @@ public class Security {
     private static Logger l = LoggerFactory.getLogger(Security.class);
     public static String serverErrorMessage = "Stopped by internal server error(500)";
     public static String badRequestMessage = "Stopped by client's bad request(400)";
-    public static String unauthorizedMessage = "Stopped by unauthorized request(401)";
+    public static String unauthorizedMessage = "Stopped by unauthorized or forbidden request(403)";
 
     public static User authorize(String login, String password){
         try {

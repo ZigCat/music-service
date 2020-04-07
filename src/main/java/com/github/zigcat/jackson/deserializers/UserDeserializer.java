@@ -6,8 +6,11 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.github.zigcat.ormlite.exception.EmailException;
+import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.ormlite.models.User;
+import com.github.zigcat.services.Security;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
@@ -40,11 +43,15 @@ public class UserDeserializer extends StdDeserializer<User> {
         String password = BCrypt.hashpw(json.get("password").asText(), BCrypt.gensalt(12));
         String regDate = json.get("regDate").asText();
         String role = json.get("role").asText();
-        if(regDate.equals("0000")){
-            return new User(id, name, surname, email, password, Role.valueOf(role));
+        if(Security.isValidEmail(email)){
+            if(regDate.equals("0000")){
+                return new User(id, name, surname, email, password, Role.valueOf(role));
+            } else {
+                return new User(id, name, surname, email, password, LocalDate.parse(regDate, User.dateTimeFormatter),
+                        Role.valueOf(role));
+            }
         } else {
-            return new User(id, name, surname, email, password, LocalDate.parse(regDate, User.dateTimeFormatter),
-                    Role.valueOf(role));
+            throw new EmailException("Email isn't valid(400)");
         }
     }
 }

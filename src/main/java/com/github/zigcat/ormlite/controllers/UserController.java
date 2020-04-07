@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zigcat.DatabaseConfiguration;
 import com.github.zigcat.ormlite.exception.CustomException;
+import com.github.zigcat.ormlite.exception.EmailException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.ormlite.models.User;
@@ -65,8 +66,8 @@ public class UserController {
             ctx.result("Generic 500 message");
             ctx.status(500);
         } catch(NotFoundException e){
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(403);
+            ctx.result("Generic 403 message");
             l.warn(Security.unauthorizedMessage);
         }
         l.info("!!!\tQUERY DONE\t!!!");
@@ -101,8 +102,8 @@ public class UserController {
             ctx.result("Generic 500 message");
             ctx.status(500);
         } catch (NotFoundException e){
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(403);
+            ctx.result("Generic 403 message");
             l.warn(Security.unauthorizedMessage);
         }
         l.info("!!!\tQUERY DONE\t!!!");
@@ -112,24 +113,18 @@ public class UserController {
         l.info("!!!\tCREATING USER\t!!!");
         try {
             User user = om.readValue(ctx.body(), User.class);
-            if(Security.isValidEmail(user.getEmail()) && !user.getRole().equals(Role.ADMIN)){
-                l.info("&&&\tcreating "+user.toString());
-                userDao.create(user);
-                ctx.result(om.writeValueAsString(user));
-                ctx.status(201);
-            } else {
-                ctx.status(400);
-                ctx.result("Generic 400 message");
-                throw new CustomException("Email isn't valid");
-            }
+            l.info("&&&\tcreating "+user.toString());
+            userDao.create(user);
+            ctx.result(om.writeValueAsString(user));
+            ctx.status(201);
         } catch (JsonProcessingException | SQLException e) {
             e.printStackTrace();
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
-        } catch (NotFoundException e){
+        } catch (EmailException e){
             ctx.status(400);
-            ctx.result("Generic 400 message");
+            ctx.result("Email isn't valid(400)");
             l.warn(Security.badRequestMessage);
         }
         l.info("!!!\tQUERY DONE\t!!!");
@@ -159,10 +154,10 @@ public class UserController {
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
-        } catch (NotFoundException e){
-            ctx.status(401);
-            ctx.result("Generic 401 message");
-            l.info(Security.unauthorizedMessage);
+        } catch (EmailException e){
+            ctx.status(400);
+            ctx.result("Email isn't valid(400)");
+            l.info(Security.badRequestMessage);
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -190,10 +185,10 @@ public class UserController {
             e.printStackTrace();
             ctx.status(500);
             ctx.result("Generic 500 message");
-        } catch (NotFoundException e){
-            ctx.status(401);
-            ctx.result("Generic 401 message");
-            l.info(Security.unauthorizedMessage);
+        } catch (EmailException e){
+            ctx.status(400);
+            ctx.result("Email isn't valid(400)");
+            l.info(Security.badRequestMessage);
         }
     }
 }

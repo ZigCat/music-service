@@ -11,6 +11,7 @@ import com.github.zigcat.ormlite.controllers.AuthorController;
 import com.github.zigcat.ormlite.controllers.GroupController;
 import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
+import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Author;
 import com.github.zigcat.ormlite.models.Group;
 import com.github.zigcat.ormlite.models.User;
@@ -40,13 +41,13 @@ public class AuthorDeserializer extends StdDeserializer<Author> {
     @Override
     public Author deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        int id = node.get("id").asInt();
-        String name = node.get("name").asText();
-        String birthday = node.get("birthday").asText();
-        String dateOfDeath = node.get("dateOfDeath").asText();
-        String description = node.get("description").asText();
-        Group group1 = new Group();
         try {
+            int id = node.get("id").asInt();
+            String name = node.get("name").asText();
+            String birthday = node.get("birthday").asText();
+            String dateOfDeath = node.get("dateOfDeath").asText();
+            String description = node.get("description").asText();
+            Group group1;
             if(node.get("group") instanceof NullNode || node.get("group") == null){
                 group1 = null;
             } else {
@@ -54,7 +55,7 @@ public class AuthorDeserializer extends StdDeserializer<Author> {
                 group1 = GroupController.groupService.getById(group);
             }
             if(!Security.isValidDate(birthday)){
-                throw new CustomException("Creation date is empty/not valid(400)");
+                throw new NotFoundException("Creation date is empty/not valid(400)");
             }
             if(!Security.isValidDate(dateOfDeath)){
                 return new Author(id, name, group1, LocalDate.parse(birthday, User.dateTimeFormatter), description);
@@ -62,9 +63,9 @@ public class AuthorDeserializer extends StdDeserializer<Author> {
             return new Author(id, name, group1 ,description, LocalDate.parse(birthday, User.dateTimeFormatter),
                     LocalDate.parse(dateOfDeath, User.dateTimeFormatter));
         } catch (SQLException e) {
-            throw new NotFoundException(Security.badRequestMessage);
+            throw new RedirectionException("SQLEXCEPTION e");
         } catch (NullPointerException e){
-            throw new CustomException(Security.badRequestMessage);
+            throw new CustomException("one of NotNull param is Null(400)");
         }
     }
 }

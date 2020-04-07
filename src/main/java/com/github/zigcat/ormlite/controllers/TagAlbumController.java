@@ -6,10 +6,10 @@ import com.github.zigcat.DatabaseConfiguration;
 import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.exception.RedirectionException;
-import com.github.zigcat.ormlite.models.Group;
 import com.github.zigcat.ormlite.models.Role;
-import com.github.zigcat.services.GroupService;
+import com.github.zigcat.ormlite.models.TagAlbum;
 import com.github.zigcat.services.Security;
+import com.github.zigcat.services.TagAlbumService;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import io.javalin.http.Context;
@@ -19,68 +19,67 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 import java.util.List;
 
-public class GroupController {
-    public static Dao<Group, Integer> groupDao;
-    private static Logger l = LoggerFactory.getLogger(GroupController.class);
-    public static GroupService groupService = new GroupService();
+public class TagAlbumController {
+    public static Dao<TagAlbum, Integer> taDao;
+    private static Logger l = LoggerFactory.getLogger(TagAlbumController.class);
+    public static TagAlbumService taService = new TagAlbumService();
 
     static {
         try {
-            groupDao = DaoManager.createDao(DatabaseConfiguration.source, Group.class);
+            taDao = DaoManager.createDao(DatabaseConfiguration.source, TagAlbum.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public static void getAll(Context ctx, ObjectMapper om){
-        l.info("!!!\tGETTING ALL GROUPS\t!!!");
+        l.info("!!!\tGETTING ALL TAGALBUM\t!!!");
         try {
-            List<Group> groupList = groupService.listAll();
-            ctx.result(om.writeValueAsString(groupList));
+            List<TagAlbum> taList = taService.listAll();
+            l.info("&&&\tgetting all tagAlbum");
             ctx.status(200);
-            l.info("&&&\tgetting all groups");
+            ctx.result(om.writeValueAsString(taList));
         } catch (SQLException | JsonProcessingException e) {
+            e.printStackTrace();
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
-            e.printStackTrace();
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
 
-    public static void getById(Context ctx, ObjectMapper om) {
-        l.info("!!!\tGETTING GROUP BY ID\t!!!");
-        int id = Integer.parseInt(ctx.pathParam("id"));
-        try {
-            for(Group g: groupService.listAll()){
-                l.info("Iterating over "+g.toString());
-                if(g.getId() == id){
-                    ctx.result(om.writeValueAsString(g));
-                    ctx.status(200);
-                    l.info("&&&\tgetting info about "+g.toString());
-                    break;
-                }
-            }
+    public static void getById(Context ctx, ObjectMapper om){
+        l.info("!!!\tGETTING TAGALBUM BY ID\t!!!");
+        try{
+            int id = Integer.parseInt(ctx.pathParam("id"));
+            TagAlbum ta = taService.getById(id);
+            l.info("&&&\tgetting by id "+ta.toString());
+            ctx.result(om.writeValueAsString(ta));
+            ctx.status(200);
         } catch (SQLException | JsonProcessingException e) {
-            l.warn(Security.serverErrorMessage);
-            ctx.result("Generic 500 message");
-            ctx.status(500);
             e.printStackTrace();
+            ctx.status(500);
+            ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
 
     public static void create(Context ctx, ObjectMapper om){
-        l.info("!!!\tCREATING GROUP\t!!!");
+        l.info("!!!\tCREATING TAGALBUM\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
         try {
-            Group group = om.readValue(ctx.body(), Group.class);
             if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                l.info("&&&\tcreator has access, creating group "+group.toString());
-                groupDao.create(group);
-                ctx.result(om.writeValueAsString(group));
+                TagAlbum ta = om.readValue(ctx.body(), TagAlbum.class);
+                l.info("&&&\tcreator has access");
+                taDao.create(ta);
                 ctx.status(201);
+                ctx.result(om.writeValueAsString(ta));
+            } else {
+                ctx.status(403);
+                ctx.result("Access denied(403)");
+                l.warn(Security.unauthorizedMessage);
             }
         } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
@@ -100,25 +99,28 @@ public class GroupController {
     }
 
     public static void update(Context ctx, ObjectMapper om){
-        l.info("!!!\tUPDATING GROUP\t!!!");
+        l.info("!!!\tUPDATING TAGALBUM\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
         try {
-            Group updGroup = om.readValue(ctx.body(), Group.class);
-            for(Group g: groupService.listAll()){
-                l.info("Iterating over "+g.toString());
-                if(g.getId() == updGroup.getId()){
-                    if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                        l.info("&&&\tcreator has access, updating group "+g.toString());
-                        groupDao.update(updGroup);
-                        ctx.result(om.writeValueAsString(updGroup));
+            if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
+                TagAlbum tagAlbum = om.readValue(ctx.body(), TagAlbum.class);
+                l.info("&&&\tcreator has access");
+                for(TagAlbum ta: taService.listAll()){
+                    l.info("Iterating over "+ta.toString());
+                    if(ta.getId() == tagAlbum.getId()){
+                        l.info("&&&\tupdating to "+tagAlbum.toString());
+                        taDao.update(tagAlbum);
                         ctx.status(200);
-                        l.info("&&&\tgroup updated to "+updGroup.toString());
-                        break;
+                        ctx.result(om.writeValueAsString(ta));
                     }
                 }
+            } else {
+                ctx.status(403);
+                ctx.result("Access denied(403)");
+                l.warn(Security.unauthorizedMessage);
             }
-        } catch (JsonProcessingException | SQLException | RedirectionException e) {
+        }  catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
@@ -136,23 +138,28 @@ public class GroupController {
     }
 
     public static void delete(Context ctx, ObjectMapper om){
-        l.info("!!!\tDELETING GROUP\t!!!");
+        l.info("!!!\tDELETING TAGALBUM\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
         try {
-            Group delGroup = om.readValue(ctx.body(), Group.class);
-            for(Group g: groupService.listAll()){
-                l.info("Iterating over "+g.toString());
-                if(g.checkGroup(delGroup)){
-                    if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                        l.info("&&&\tcreator has access, deleting "+g.toString());
-                        groupDao.delete(g);
-                        ctx.result(om.writeValueAsString(g));
+            if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
+                TagAlbum tagAlbum = om.readValue(ctx.body(), TagAlbum.class);
+                l.info("&&&\tcreator has access");
+                for(TagAlbum ta: taService.listAll()){
+                    l.info("Iterating over "+ta.toString());
+                    if(ta.getId() == tagAlbum.getId()){
+                        l.info("&&&\tdeleting to "+tagAlbum.toString());
+                        taDao.deleteById(tagAlbum.getId());
                         ctx.status(200);
+                        ctx.result(om.writeValueAsString(ta));
                     }
                 }
+            } else {
+                ctx.status(403);
+                ctx.result("Access denied(403)");
+                l.warn(Security.unauthorizedMessage);
             }
-        } catch (JsonProcessingException | SQLException | RedirectionException e) {
+        }  catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);

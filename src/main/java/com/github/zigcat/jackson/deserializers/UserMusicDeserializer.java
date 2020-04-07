@@ -6,9 +6,12 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.node.NullNode;
 import com.github.zigcat.ormlite.controllers.MusicController;
 import com.github.zigcat.ormlite.controllers.UserController;
 import com.github.zigcat.ormlite.exception.CustomException;
+import com.github.zigcat.ormlite.exception.NotFoundException;
+import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Music;
 import com.github.zigcat.ormlite.models.User;
 import com.github.zigcat.ormlite.models.UserMusic;
@@ -42,17 +45,25 @@ public class UserMusicDeserializer extends StdDeserializer<UserMusic> {
     @Override
     public UserMusic deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        int id = node.get("id").asInt();
+        User user;
+        Music music;
         try {
-            Music music = MusicController.musicService.getById(node.get("music").asInt());
-            User user = UserController.userService.getById(node.get("user").asInt());
+            int id = node.get("id").asInt();
+            if(node.get("music") instanceof NullNode || node.get("music") == null){
+                throw new NotFoundException("music isn't valid(400)");
+            } else {
+                music = MusicController.musicService.getById(node.get("music").asInt());
+            }
+            if(node.get("user") instanceof NullNode || node.get("user") == null){
+                throw new NotFoundException("user isn't valid(400)");
+            } else {
+                user = UserController.userService.getById(node.get("user").asInt());
+            }
             return new UserMusic(id, music, user);
         } catch (SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.serverErrorMessage);
-        } catch (CustomException e){
-            l.warn(Security.badRequestMessage);
+            throw new RedirectionException("SQLException e");
+        } catch (NullPointerException e){
+            throw new CustomException("one of NotNull params is Null");
         }
-        throw new CustomException(Security.badRequestMessage);
     }
 }

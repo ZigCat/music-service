@@ -3,7 +3,9 @@ package com.github.zigcat.ormlite.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zigcat.DatabaseConfiguration;
+import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
+import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.UserMusic;
 import com.github.zigcat.services.Security;
 import com.github.zigcat.services.UserMusicService;
@@ -79,18 +81,22 @@ public class UserMusicController {
                 ctx.result(om.writeValueAsString(um));
             } else {
                 l.info(Security.unauthorizedMessage);
-                ctx.status(401);
-                ctx.result("Generic 401 message");
+                ctx.status(403);
+                ctx.result("Generic 403 message");
             }
-        } catch (JsonProcessingException | SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.badRequestMessage);
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
+            e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+            l.warn(Security.badRequestMessage);
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -112,15 +118,19 @@ public class UserMusicController {
                     }
                 }
             }
-        } catch (JsonProcessingException | SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.badRequestMessage);
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
+            e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+            l.warn(Security.badRequestMessage);
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }

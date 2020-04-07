@@ -21,6 +21,11 @@ public class DatabaseConfiguration {
             TableUtils.createTableIfNotExists(source, Author.class);
             TableUtils.createTableIfNotExists(source, Group.class);
             TableUtils.createTableIfNotExists(source, Genre.class);
+            TableUtils.createTableIfNotExists(source, AuthorGroup.class);
+            TableUtils.createTableIfNotExists(source, Category.class);
+            TableUtils.createTableIfNotExists(source, CategoryGenre.class);
+            TableUtils.createTableIfNotExists(source, Tag.class);
+            TableUtils.createTableIfNotExists(source, TagAlbum.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }

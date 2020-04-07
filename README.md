@@ -1,6 +1,7 @@
 # Music Service - Сервис для подбора и прослушивания музыки
 
-В этой версии исправил поиск, а также обновил базу.
+В этой версии добавил зависимость автор/группа, добавил классы для подбора музыки, оптимизировал ObjectMapper и 
+отлавливание ошибок.
 
 Сервис использует протокол HTTP и формат JSON для передачи данных, авторизация Basic Auth.
 
@@ -35,9 +36,18 @@
 >> - group(должен быть `int`)
 >> - genre(должен быть `int`)
 >
-> **author и group не могут быть вызваны одновременно** 
+> **author и group не могут быть вызваны одновременно**
+> 
 > URL запроса:
+>
 > `localhost:34567/search?name=*your value*&group=*your value*&author=*your value*&genre=*your value*`
+
+### Частые ошибки
+- `"Generic 500 message"`| `Internal server error`(ошибка сервера)
+- `"Generic 403 message"`(доступ запрещен - неверные параметры BasicAuth)
+- `"Generic 400 message"`(ошибка клиента)
+
+
 
 ### Свойства энтити базы: 
 - **user**:
@@ -82,5 +92,24 @@
 	- *id*
 	- *user*
 	- *music*
+- **AuthorGroup**(relation of author and group):
+    - *id*
+    - *author*
+    - *group*
+- **Category**(category of tags):
+    - *id*
+    - *name*
+- **Tag**:
+    - *id*
+    - *name*
+    - *category*
+- **TagAlbum**(relation of tag and album):
+    - *id*
+    - *tag*
+    - *album*
+- **CategoryGenre**(relation of category and genre):
+    - *id*
+    - *category*
+    - *genre*
 
 #### Проект на стадии разработки, в последствии будет добавляться новый функционал

@@ -7,34 +7,34 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.github.zigcat.ormlite.exception.CustomException;
-import com.github.zigcat.ormlite.models.Genre;
+import com.github.zigcat.ormlite.models.Category;
 
 import java.io.IOException;
 
-public class GenreDeserializer extends StdDeserializer<Genre> {
-    protected GenreDeserializer(Class<?> vc) {
+public class CategoryDeserializer extends StdDeserializer<Category> {
+    protected CategoryDeserializer(Class<?> vc) {
         super(vc);
     }
 
-    protected GenreDeserializer(JavaType valueType) {
+    protected CategoryDeserializer(JavaType valueType) {
         super(valueType);
     }
 
-    protected GenreDeserializer(StdDeserializer<?> src) {
+    protected CategoryDeserializer(StdDeserializer<?> src) {
         super(src);
     }
 
-    public GenreDeserializer(){
-        super(Genre.class);
+    public CategoryDeserializer(){
+        super(Category.class);
     }
 
     @Override
-    public Genre deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+    public Category deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
         try {
             int id = node.get("id").asInt();
             String name = node.get("name").asText();
-            return new Genre(id, name);
+            return new Category(id, name);
         } catch (NullPointerException e){
             throw new CustomException("one of NotNull params is Null");
         }

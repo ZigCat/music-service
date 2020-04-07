@@ -3,7 +3,9 @@ package com.github.zigcat.ormlite.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zigcat.DatabaseConfiguration;
+import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
+import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Genre;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.services.GenreService;
@@ -80,15 +82,19 @@ public class GenreController {
                 genreDao.create(genre);
                 ctx.result(om.writeValueAsString(genre));
             }
-        } catch (JsonProcessingException | SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.serverErrorMessage);
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
+            e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+            l.warn(Security.badRequestMessage);
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -112,15 +118,19 @@ public class GenreController {
                     }
                 }
             }
-        } catch (JsonProcessingException | SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.serverErrorMessage);
+        } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
+            e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+            l.warn(Security.badRequestMessage);
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -143,15 +153,19 @@ public class GenreController {
                     }
                 }
             }
-        } catch (JsonProcessingException | SQLException e) {
-            e.printStackTrace();
-            l.warn(Security.serverErrorMessage);
+        }  catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
+            l.warn(Security.serverErrorMessage);
+            e.printStackTrace();
         } catch (NotFoundException e){
-            l.warn(Security.unauthorizedMessage);
-            ctx.status(401);
-            ctx.result("Generic 401 message");
+            ctx.status(400);
+            ctx.result("Wrong input data(400)");
+            l.warn(Security.badRequestMessage);
+        } catch (CustomException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("One of NotNull params is Null(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
