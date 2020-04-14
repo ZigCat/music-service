@@ -1,59 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="100ef734-95be-4619-980f-84d66eea2c35" name="Default Changelist" comment="Добавил классы для подборки музыки, создал новую зависимость">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/AuthorGroupDeserializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/CategoryDeserializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/CategoryGenreDeserializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagAlbumDeserializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagDeserializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/AuthorGroupSerializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/CategoryGenreSerializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/CategorySerializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/TagAlbumSerializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/TagSerializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/AuthorGroupController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/CategoryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/CategoryGenreController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/TagAlbumController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/TagController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/exception/EmailException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/exception/RedirectionException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/AuthorGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Category.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/CategoryGenre.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Tag.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/TagAlbum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/AuthorGroupService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/CategoryGenreService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/CategoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagAlbumService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="100ef734-95be-4619-980f-84d66eea2c35" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/DatabaseConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/DatabaseConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_music_service_.sql" beforeDir="false" afterPath="$PROJECT_DIR$/_music_service_.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/music_service.postman_collection.json" beforeDir="false" afterPath="$PROJECT_DIR$/music_service.postman_collection.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/AlbumDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/AlbumDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/AuthorDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/AuthorDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/GenreDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/GenreDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/GroupDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/GroupDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/MusicDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/MusicDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/UserDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/UserDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/UserMusicDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/UserMusicDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/AlbumController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/AlbumController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/AuthorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/AuthorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/GenreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/GenreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/GroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/GroupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagAlbumDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagAlbumDeserializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/MusicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/MusicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/UserMusicController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/UserMusicController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/Security.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/Security.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/AuthorGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/AuthorGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/TagAlbum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/TagAlbum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/AlbumService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/AlbumService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagAlbumService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagAlbumService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/UserMusicService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/UserMusicService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/DatabaseConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/DatabaseConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/AlbumDeserializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/AlbumDeserializer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/AuthorDeserializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/AuthorDeserializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/GenreDeserializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/GenreDeserializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/GroupDeserializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/GroupDeserializer.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/MusicDeserializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/MusicDeserializer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/serializers/MusicSerializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/serializers/MusicSerializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/UserDeserializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/UserDeserializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/UserMusicDeserializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/jackson/deserializers/UserMusicDeserializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/AlbumController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/AlbumController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/AuthorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/AuthorController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/GenreController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/GenreController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/GroupController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/GroupController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/MusicController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/MusicController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/models/Author.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/models/Author.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/UserMusicController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/ormlite/controllers/UserMusicController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/github/zigcat/services/Security.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/github/zigcat/services/Security.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -68,14 +44,66 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-289">
-              <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
+            <state relative-caret-position="782">
+              <caret line="53" column="63" selection-start-line="53" selection-start-column="63" selection-end-line="53" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/TagAlbum.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/MusicController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="345" column="25" lean-forward="true" selection-start-line="345" selection-start-column="25" selection-end-line="345" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="initializer##0;class#MusicController#0" />
+                <element signature="method#getAll#0;class#MusicController#0" />
+                <element signature="method#getById#0;class#MusicController#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagAlbumService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="41" selection-start-line="41" selection-end-line="41" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="method#getById#0;class#TagAlbumService#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="FIRST">
+              <first_editor relative-caret-position="51">
+                <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -105,21 +133,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/UserMusicService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/UserMusic.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Music.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Album.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Author.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/MusicSerializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/AuthorGroup.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/AuthorGroupService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/Security.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/AuthorGroupSerializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/exception/EmailException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/UserDeserializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/TagAlbum.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagAlbumService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/TagAlbumSerializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Tag.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/TagSerializer.java" />
@@ -130,7 +153,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/CategoryGenreService.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/CategoryGenreSerializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/DatabaseConfiguration.java" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/UserController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/exception/RedirectionException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/GroupDeserializer.java" />
@@ -138,10 +160,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/GenreDeserializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/UserMusicDeserializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagDeserializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagAlbumDeserializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/CategoryGenreDeserializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/CategoryDeserializer.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/AlbumDeserializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/AuthorDeserializer.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/AuthorGroupDeserializer.java" />
@@ -152,10 +172,18 @@
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/CategoryGenreController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/GenreController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/GroupController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/MusicController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/TagAlbumController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/TagController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/UserMusicController.java" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/UserMusicService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/AuthorGroup.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/AlbumService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagAlbumDeserializer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/TagAlbum.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagAlbumService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/MusicController.java" />
       </list>
     </option>
   </component>
@@ -365,14 +393,21 @@
       <option name="project" value="LOCAL" />
       <updated>1585650307312</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Добавил классы для подборки музыки, оптимизировал вцелом">
+      <created>1586258701740</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1586258701740</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1295" height="695" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2574899" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26639676" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -384,7 +419,7 @@
       <window_info id="Job Explorer" order="9" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3285968" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.59680283" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.45293072" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -449,26 +484,11 @@
     <MESSAGE value="Добавление базы и коллекции" />
     <MESSAGE value="Исправил поиск и обновил базу" />
     <MESSAGE value="Добавил классы для подборки музыки, создал новую зависимость" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил классы для подборки музыки, создал новую зависимость" />
+    <MESSAGE value="Добавил классы для подборки музыки, оптимизировал ошибки" />
+    <MESSAGE value="Добавил классы для подборки музыки, оптимизировал вцелом" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил классы для подборки музыки, оптимизировал вцелом" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/AuthorGroupService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="31" column="20" selection-start-line="31" selection-start-column="20" selection-end-line="31" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/AuthorGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="18" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/Security.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -537,55 +557,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/UserMusicService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/UserService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" column="10" lean-forward="true" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/TagAlbum.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="54" column="44" lean-forward="true" selection-start-line="54" selection-start-column="44" selection-end-line="54" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#625#626#0" expanded="true" />
-            <element signature="e#650#651#0" expanded="true" />
-            <element signature="e#683#684#0" expanded="true" />
-            <element signature="e#711#712#0" expanded="true" />
-            <element signature="e#738#739#0" expanded="true" />
-            <element signature="e#764#765#0" expanded="true" />
-            <element signature="e#799#800#0" expanded="true" />
-            <element signature="e#829#830#0" expanded="true" />
-            <element signature="e#860#861#0" expanded="true" />
-            <element signature="e#888#889#0" expanded="true" />
-            <element signature="e#929#930#0" expanded="true" />
-            <element signature="e#963#964#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagAlbumService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="56" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#getById#0;class#TagAlbumService#0" />
           </folding>
         </state>
       </provider>
@@ -605,19 +582,6 @@
             <element signature="e#742#743#0" expanded="true" />
             <element signature="e#831#832#0" expanded="true" />
             <element signature="e#851#852#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Tag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="41" column="35" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#869#870#0" expanded="true" />
-            <element signature="e#919#920#0" expanded="true" />
-            <element signature="e#959#960#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -651,16 +615,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Category.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/CategorySerializer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
@@ -677,16 +631,6 @@
             <element signature="e#742#743#0" expanded="true" />
             <element signature="e#780#781#0" expanded="true" />
             <element signature="e#802#803#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -744,16 +688,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/DatabaseConfiguration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="70" lean-forward="true" selection-start-line="27" selection-start-column="70" selection-end-line="27" selection-end-column="70" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/serializers/UserAdminSerializer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -779,21 +713,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="FIRST">
-          <first_editor relative-caret-position="227">
-            <caret line="49" column="6" lean-forward="true" selection-start-line="49" selection-start-column="6" selection-end-line="49" selection-end-column="6" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="65" selection-start-line="3" selection-start-column="65" selection-end-line="3" selection-end-column="65" />
         </state>
       </provider>
     </entry>
@@ -843,16 +762,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="447">
           <caret line="52" column="71" selection-start-line="52" selection-start-column="71" selection-end-line="52" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagAlbumDeserializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="59" column="72" selection-start-line="59" selection-start-column="72" selection-end-line="59" selection-end-column="72" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -937,19 +846,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/CategoryController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="115" column="14" selection-start-line="115" selection-start-column="14" selection-end-line="115" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="initializer##0;class#CategoryController#0" />
-            <element signature="method#getAll#0;class#CategoryController#0" />
-            <element signature="method#getById#0;class#CategoryController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/CategoryGenreController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="383">
@@ -958,31 +854,6 @@
             <element signature="imports" expanded="true" />
             <element signature="initializer##0;class#CategoryGenreController#0" />
             <element signature="method#getAll#0;class#CategoryGenreController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/MusicController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2776">
-          <caret line="267" column="36" selection-start-line="267" selection-start-column="36" selection-end-line="267" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="initializer##0;class#MusicController#0" />
-            <element signature="method#getAll#0;class#MusicController#0" />
-            <element signature="method#getById#0;class#MusicController#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/TagAlbumController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="96" column="9" selection-start-line="96" selection-start-column="9" selection-end-line="96" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="initializer##0;class#TagAlbumController#0" />
-            <element signature="method#getById#0;class#TagAlbumController#0" />
           </folding>
         </state>
       </provider>
@@ -1033,7 +904,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/UserMusicController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
+        <state relative-caret-position="527">
           <caret line="61" column="10" selection-start-line="61" selection-start-column="10" selection-end-line="61" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1042,13 +913,164 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/UserMusicService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-289">
-          <caret line="52" column="28" selection-start-line="52" selection-start-column="28" selection-end-line="52" selection-end-column="28" />
+        <state relative-caret-position="379">
+          <caret line="31" column="25" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/AuthorGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="13" column="61" selection-start-line="13" selection-start-column="61" selection-end-line="13" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/DatabaseConfiguration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="59">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Category.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="13" column="23" lean-forward="true" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/Tag.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="41" column="35" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#865#866#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/CategoryController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="67">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getAll#0;class#CategoryController#0" />
+            <element signature="method#getById#0;class#CategoryController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/AlbumService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="23" column="51" selection-start-line="23" selection-start-column="51" selection-end-line="23" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/TagAlbumController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="35">
+          <caret line="148" column="48" selection-start-line="148" selection-start-column="48" selection-end-line="148" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="initializer##0;class#TagAlbumController#0" />
+            <element signature="method#getById#0;class#TagAlbumController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/jackson/deserializers/TagAlbumDeserializer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="60" column="20" lean-forward="true" selection-start-line="60" selection-start-column="20" selection-end-line="60" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="53" column="63" selection-start-line="53" selection-start-column="63" selection-end-line="53" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/models/TagAlbum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/services/TagAlbumService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="41" selection-start-line="41" selection-end-line="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#getById#0;class#TagAlbumService#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/github/zigcat/ormlite/controllers/MusicController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="345" column="25" lean-forward="true" selection-start-line="345" selection-start-column="25" selection-end-line="345" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="initializer##0;class#MusicController#0" />
+            <element signature="method#getAll#0;class#MusicController#0" />
+            <element signature="method#getById#0;class#MusicController#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="FIRST">
+          <first_editor relative-caret-position="51">
+            <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="65" selection-start-line="3" selection-start-column="65" selection-end-line="3" selection-end-column="65" />
         </state>
       </provider>
     </entry>

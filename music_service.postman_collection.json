@@ -189,7 +189,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"James Alan Hetfield\",\r\n    \"group\":1,\r\n    \"birthday\": \"1963 08 03\",\r\n    \"description\": \"американский рок-музыкант; вокалист и ритм-гитарист метал-группы Metallica.\"\r\n}",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Rick Astley\",\r\n    \"group\": null,\r\n    \"birthday\": \"1966 02 06\",\r\n    \"dateOfDeath\": \"0000\",\r\n    \"description\": \"британский исполнитель танцевальной музыки 1980-х годов, баритон.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -917,6 +917,401 @@
 							]
 						},
 						"description": "deleting relation(access has only authorized user)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "search",
+			"item": [
+				{
+					"name": "search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/search",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"search"
+							]
+						},
+						"description": "search music by author, group, name or/and album. searching use queryParams"
+					},
+					"response": []
+				},
+				{
+					"name": "select",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/select/?search_type=1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"select",
+								""
+							],
+							"query": [
+								{
+									"key": "search_type",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/category/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/category/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":1,\n\t\"name\":\"Heavy\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/category/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/category/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/category/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "tag",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/tag/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"tag",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/tag/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"tag",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":1,\n\t\"name\":\"screaming\",\n\t\"category\":1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/tag/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"tag",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/tag/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"tag",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/tag/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"tag",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "tag_album",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "0000",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/albumtag/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"albumtag",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/albumtag/1",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"albumtag",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":1,\n\t\"tag\":2,\n\t\"album\":1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/albumtag/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"albumtag",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/albumtag/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"albumtag",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/albumtag/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"albumtag",
+								""
+							]
+						}
 					},
 					"response": []
 				}

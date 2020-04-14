@@ -50,6 +50,8 @@ public class Main {
         sm.addDeserializer(TagAlbum.class, new TagAlbumDeserializer());
         sm.addDeserializer(Tag.class, new TagDeserializer());
         sm.addDeserializer(UserMusic.class, new UserMusicDeserializer());
+        sm.addSerializer(User.class, new UserSerializer());
+        sm.addDeserializer(User.class, new UserDeserializer());
         //registering module
         om.registerModule(sm);
 //starting app
@@ -115,16 +117,17 @@ public class Main {
         app.patch("tag/", ctx -> TagController.update(ctx, om));
         app.delete("tag/", ctx -> TagController.delete(ctx, om));
 //TagAlbum CRUD
-        app.get("album/tag/", ctx -> TagAlbumController.getAll(ctx, om));
-        app.get("album/tag/:id", ctx -> TagAlbumController.getById(ctx, om));
-        app.post("album/tag/", ctx -> TagAlbumController.create(ctx, om));
-        app.patch("album/tag/", ctx -> TagAlbumController.update(ctx, om));
-        app.delete("album/tag/", ctx -> TagAlbumController.delete(ctx, om));
+        app.get("albumtag/", ctx -> TagAlbumController.getAll(ctx, om));
+        app.get("albumtag/:id", ctx -> TagAlbumController.getById(ctx, om));
+        app.post("albumtag/", ctx -> TagAlbumController.create(ctx, om));
+        app.patch("albumtag/", ctx -> TagAlbumController.update(ctx, om));
+        app.delete("albumtag/", ctx -> TagAlbumController.delete(ctx, om));
 //Category CRUD
         app.get("category/", ctx -> CategoryController.getAll(ctx, om));
         app.get("category/:id", ctx -> CategoryController.getById(ctx, om));
         app.post("category/", ctx -> CategoryController.create(ctx, om));
         app.patch("category/", ctx -> CategoryController.update(ctx, om));
         app.delete("category/", ctx -> CategoryController.delete(ctx, om));
+        app.get("select/", ctx -> MusicController.selection(ctx, om));
     }
 }

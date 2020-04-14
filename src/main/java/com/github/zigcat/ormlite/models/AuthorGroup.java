@@ -1,8 +1,17 @@
 package com.github.zigcat.ormlite.models;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "author_group")
 public class AuthorGroup {
+    @DatabaseField(generatedId = true)
     private int id;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Author author;
+
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Group group;
 
     public AuthorGroup() {

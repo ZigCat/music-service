@@ -15,11 +15,14 @@ import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Album;
 import com.github.zigcat.ormlite.models.Tag;
 import com.github.zigcat.ormlite.models.TagAlbum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class TagAlbumDeserializer extends StdDeserializer<TagAlbum> {
+    private static Logger l = LoggerFactory.getLogger(TagAlbumDeserializer.class);
     protected TagAlbumDeserializer(Class<?> vc) {
         super(vc);
     }
@@ -39,19 +42,24 @@ public class TagAlbumDeserializer extends StdDeserializer<TagAlbum> {
     @Override
     public TagAlbum deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+        l.info("@@@\tdeserializing tagalbum");
         int id = node.get("id").asInt();
         Tag tag;
         Album album;
         try {
+            l.info("checking tag");
             if(node.get("tag") instanceof NullNode || node.get("tag") == null){
-                tag = TagController.tagService.getById(node.get("tag").asInt());
-            } else {
+                l.info("wrong tag");
                 throw new NotFoundException("Tag isn't valid(400)");
-            }
-            if(node.get("album") instanceof NullNode || node.get("album") == null){
-                album = AlbumController.albumService.getById(node.get("tag").asInt());
             } else {
+                tag = TagController.tagService.getById(node.get("tag").asInt());
+            }
+            l.info("checking album");
+            if(node.get("album") instanceof NullNode || node.get("album") == null){
+                l.info("wrong album");
                 throw new NotFoundException("Album isn't valid(400)");
+            } else {
+                album = AlbumController.albumService.getById(node.get("album").asInt());
             }
             return new TagAlbum(id, tag, album);
         } catch (SQLException e) {

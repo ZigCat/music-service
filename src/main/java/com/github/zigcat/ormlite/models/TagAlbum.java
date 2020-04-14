@@ -51,8 +51,8 @@ public class TagAlbum {
     public String toString() {
         return "TagAlbum{" +
                 "id=" + id +
-                ", tag=" + tag.getId() +
-                ", album=" + album.getId() +
+                ", tag=" + tag +
+                ", album=" + album +
                 '}';
     }
 }

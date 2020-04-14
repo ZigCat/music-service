@@ -2,6 +2,7 @@ package com.github.zigcat.services;
 
 import com.github.zigcat.ormlite.controllers.AlbumController;
 import com.github.zigcat.ormlite.models.Album;
+import com.github.zigcat.ormlite.models.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,15 +21,15 @@ public class AlbumService {
     }
 
     public Album getById(int id) throws SQLException {
-        l.info("@@@\tgetting author by id");
-        for(Album a: AlbumController.albumDao.queryForAll()){
-            l.info("Iterating over "+a.toString());
-            if(a.getId() == id){
-                l.info("@@@\tgetting "+a.toString());
-                return a;
+            l.info("@@@\tgetting album by id "+id);
+            for(Album a: AlbumController.albumDao.queryForAll()){
+                l.info("Iterating over "+a.toString());
+                if(a.getId() == id){
+                    l.info("@@@\tgetting "+a.toString());
+                    return a;
+                }
             }
-        }
-        l.warn("@@@\tnothing got, check your code");
-        return null;
+            l.warn("@@@\tnothing got, check your code");
+            return null;
     }
 }
