@@ -3,7 +3,6 @@ package com.github.zigcat.ormlite.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.zigcat.DatabaseConfiguration;
-import com.github.zigcat.ormlite.exception.CustomException;
 import com.github.zigcat.ormlite.exception.EmailException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Role;
@@ -82,13 +81,15 @@ public class UserController {
             for(User u: userService.listAll()){
                 l.info("Iterating over "+u.toString());
                 if(u.getId() == id){
-                    if(u.checkUser(Security.authorize(login, password))
-                            && Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                        l.info("&&&\tgetting full info about "+u.toString());
-                        ctx.result(omAdmin.writeValueAsString(u));
-                        ctx.status(200);
-                        break;
-                    } else {
+                    try{
+                        if(u.checkUser(Security.authorize(login, password))
+                                || Security.authorize(login, password).getRole().equals(Role.ADMIN)) {
+                            l.info("&&&\tgetting full info about " + u.toString());
+                            ctx.result(omAdmin.writeValueAsString(u));
+                            ctx.status(200);
+                            break;
+                        }
+                    } catch (NotFoundException e){
                         l.info("&&&\tgetting info about "+u.toString());
                         ctx.result(om.writeValueAsString(u));
                         ctx.status(200);
@@ -101,10 +102,6 @@ public class UserController {
             l.warn(Security.serverErrorMessage);
             ctx.result("Generic 500 message");
             ctx.status(500);
-        } catch (NotFoundException e){
-            ctx.status(403);
-            ctx.result("Generic 403 message");
-            l.warn(Security.unauthorizedMessage);
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -141,6 +138,8 @@ public class UserController {
                 if(u.getId() == updUser.getId()){
                     if(u.checkUser(Security.authorize(login, password))){
                         l.info("&&&\tupdating "+u.toString());
+                        String regDate = u.getRegDate();
+                        updUser.setRegDate(regDate);
                         userDao.update(updUser);
                         l.info("&&&\tupdated to "+updUser.toString());
                         ctx.result(om.writeValueAsString(updUser));

@@ -2,6 +2,7 @@ package com.github.zigcat.services;
 
 import com.github.zigcat.ormlite.controllers.CategoryController;
 import com.github.zigcat.ormlite.models.Category;
+import com.github.zigcat.ormlite.models.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -282,6 +282,7 @@ public class MusicController {
         l.info("!!!\tMUSIC SELECTION\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        ArrayList<Album> albums;
         Map queryMap = ctx.queryParamMap();
         int type;
         User user = Security.authorize(login, password);
@@ -296,42 +297,11 @@ public class MusicController {
            switch(type){
                case 1:
                    l.info("&&&\tsearch type = 1");
-                   ArrayList<Integer> tags = new ArrayList<>();
-                   ArrayList<Integer> tagList;
-                   int max, maxVar = 0;
-                   tagList = new ArrayList<>();
+                   ArrayList<Tag> tagList = new ArrayList<>();
                    for(Music m: UserMusicController.umService.getMusic(user)){
                        tagList.addAll(TagAlbumController.taService.getByAlbum(m.getAlbum()));
                    }
-                   for(Integer i: tagList){
-                       if(!tags.contains(i)){
-                           tags.add(i);
-                       }
-                   }
-                   int[] nums = new int[tags.size()];
-                   for(int i=0;i<nums.length;i++){
-                       nums[i] = 0;
-                   }
-                   for(Integer integer : tagList) {
-                       nums[tags.indexOf(integer)] += 1;
-                   }
-                   l.info("&&&\tchoosing tag");
-                   max = nums[0];
-                   for(int i=0;i<nums.length;i++){
-                       for (int num : nums) {
-                           if (nums[i] > num && nums[i] > maxVar) {
-                               maxVar = nums[i];
-                               max = tags.get(i);
-                               l.info("max = "+max);
-                           } else if(nums[i] < num && num > maxVar){
-                               maxVar = num;
-                               max = tags.get(i);
-                               l.info("max = "+max);
-                           }
-                       }
-                   }
-                   l.info("&&&\tgetting search tag by id "+max);
-                   Tag tag = TagController.tagService.getById(max);
+                   Tag tag = TagController.tagService.mostPopular(tagList, user);
                    l.info("&&&\tgetting by "+tag.toString());
                    ctx.status(200);
                    ctx.result(om.writeValueAsString(TagAlbumController.taService.getByTag(tag)));
@@ -339,9 +309,33 @@ public class MusicController {
                case 2:
                    l.info("&&&\tsearch type = "+type);
                    if(queryMap.containsKey("genre")){
-                       l.info("checkpoint");
+                        Genre genre = GenreController.genreService.getById(Integer.parseInt(ctx.queryParam("genre")));
+                        l.info("&&&\tgenre = "+genre.toString());
+                        ArrayList<Category> categories = CategoryGenreController.cgService.getByGenre(genre);
+                        ArrayList<Tag> tags1 = new ArrayList<>();
+                        albums = new ArrayList<>();
+                        for(Category c: categories){
+                            tags1.addAll(TagController.tagService.getByCategory(c));
+                        }
+                        for(Tag t: tags1){
+                            albums.addAll(TagAlbumController.taService.getByTag(t));
+                        }
+                        l.info("&&&\tgetting list of albums");
+                        ctx.status(200);
+                        ctx.result(om.writeValueAsString(albums));
+                   } else if(queryMap.containsKey("music")){
+                       Music music = musicService.getById(Integer.parseInt(ctx.queryParam("music")));
+                       l.info("&&&\tmusic = "+music.toString());
+                       ArrayList<Tag> tags = TagAlbumController.taService.getByAlbum(music.getAlbum());
+                       albums = new ArrayList<>();
+                       for(Tag t: tags){
+                           albums.addAll(TagAlbumController.taService.getByTag(t));
+                       }
+                       l.info("&&&\tgetting list of albums");
+                       ctx.status(200);
+                       ctx.result(om.writeValueAsString(albums));
                    } else {
-                       throw new NullPointerException("wrong query param");
+                       throw new NullPointerException("wrong query param(400)");
                    }
                    break;
            }

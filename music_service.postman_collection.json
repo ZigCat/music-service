@@ -951,7 +951,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:34567/select/?search_type=1",
+							"raw": "localhost:34567/select/?search_type=2&music=1",
 							"host": [
 								"localhost"
 							],
@@ -963,6 +963,10 @@
 							"query": [
 								{
 									"key": "search_type",
+									"value": "2"
+								},
+								{
+									"key": "music",
 									"value": "1"
 								}
 							]
@@ -1309,6 +1313,127 @@
 							"port": "34567",
 							"path": [
 								"albumtag",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "category_genre",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/genre/category/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/genre/category/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								"category",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":1,\n\t\"category\":2,\n\t\"genre\":3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:34567/genre/category/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/genre/category/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:34567/genre/category/",
+							"host": [
+								"localhost"
+							],
+							"port": "34567",
+							"path": [
+								"genre",
+								"category",
 								""
 							]
 						}

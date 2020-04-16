@@ -129,5 +129,11 @@ public class Main {
         app.patch("category/", ctx -> CategoryController.update(ctx, om));
         app.delete("category/", ctx -> CategoryController.delete(ctx, om));
         app.get("select/", ctx -> MusicController.selection(ctx, om));
+//CategoryGenre CRUD
+        app.get("genre/category/", ctx -> CategoryGenreController.getAll(ctx, om));
+        app.get("genre/category/:id", ctx -> CategoryGenreController.getById(ctx, om));
+        app.post("genre/category/", ctx -> CategoryGenreController.create(ctx, om));
+        app.patch("genre/category/", ctx -> CategoryGenreController.update(ctx, om));
+        app.delete("genre/category/", ctx -> CategoryGenreController.delete(ctx, om));
     }
 }

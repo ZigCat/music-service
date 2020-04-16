@@ -34,14 +34,14 @@ public class TagAlbumService {
         return null;
     }
 
-    public ArrayList<Integer> getByAlbum(Album album) throws SQLException {
+    public ArrayList<Tag> getByAlbum(Album album) throws SQLException {
         l.info("@@@\tgetting tags by album "+album);
-        ArrayList<Integer> tagList = new ArrayList<>();
+        ArrayList<Tag> tagList = new ArrayList<>();
         for(TagAlbum ta: listAll()){
             l.info("Iterating over "+ta.toString());
             if(ta.getAlbum().getId() == album.getId()){
                 l.info("@@@\tadd "+ta.getTag());
-                tagList.add(ta.getTag().getId());
+                tagList.add(ta.getTag());
             }
         }
         l.info("@@@\tgetting list");
