@@ -7,6 +7,7 @@ import com.github.zigcat.ormlite.exception.EmailException;
 import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.ormlite.models.User;
+import com.github.zigcat.services.PaginationService;
 import com.github.zigcat.services.Security;
 import com.github.zigcat.services.UserService;
 import com.j256.ormlite.dao.Dao;
@@ -16,13 +17,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserController {
     public static Dao<User, Integer> userDao;
     private static Logger l = LoggerFactory.getLogger(UserController.class);
     public static UserService userService = new UserService();
+    private static PaginationService paginationService = new PaginationService();
 
     static {
         try {
@@ -34,29 +36,25 @@ public class UserController {
 
     public static void getAll(Context ctx, ObjectMapper om, ObjectMapper omAdmin){
         l.info("!!!\tGETTING ALL INFO\t!!!");
+        Map queryMap = ctx.queryParamMap();
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        long page;
         try {
+            if(queryMap.containsKey("page")){
+                page = Long.parseLong(ctx.queryParam("page"));
+            } else {
+                page = 1;
+            }
             List<User> userList = userService.listAll();
             if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
                 l.info("&&&\tgetting info as ADMIN");
-                ctx.result(omAdmin.writeValueAsString(userList));
+                ctx.result(omAdmin.writeValueAsString(paginationService.pagitation(userDao, page, 10)));
                 ctx.status(200);
             }
             else {
                 l.info("&&&\tgetting info as USER");
-                ArrayList<User> usArray = new ArrayList<>();
-                ArrayList<User> uArray = new ArrayList<>();
-                for(User u: userList){
-                    l.info("Iterating over "+u.toString());
-                    if(u.checkUser(Security.authorize(login, password))) {
-                        l.info("&&&\tgetting full info about "+u.toString());
-                        uArray.add(u);
-                    } else {
-                        usArray.add(u);
-                    }
-                }
-                ctx.result(omAdmin.writeValueAsString(uArray) + om.writeValueAsString(usArray));
+                ctx.result(om.writeValueAsString(paginationService.pagitation(userDao, page, 10)));
                 ctx.status(200);
             }
         } catch (SQLException | JsonProcessingException e) {
@@ -68,6 +66,10 @@ public class UserController {
             ctx.status(403);
             ctx.result("Generic 403 message");
             l.warn(Security.unauthorizedMessage);
+        } catch (NullPointerException e){
+            ctx.status(400);
+            ctx.result("Wrong queryParam(400)");
+            l.warn(Security.badRequestMessage);
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -165,19 +167,26 @@ public class UserController {
         l.info("!!!\tDELETING USER\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        Map queryMap = ctx.queryParamMap();
         try {
-            User delUser = om.readValue(ctx.body(), User.class);
-            for(User u: userService.listAll()){
-                l.info("Iterating over "+u.toString());
-                if(u.checkUser(delUser)){
-                    if(u.checkUser(Security.authorize(login, password))){
-                        l.info("&&&\tdeleting "+delUser.toString());
-                        userDao.delete(u);
-                        ctx.result(om.writeValueAsString(u));
-                        ctx.status(200);
-                        break;
+            if(queryMap.containsKey("id")){
+                int id = Integer.parseInt(ctx.queryParam("id"));
+                for(User u: userService.listAll()){
+                    l.info("Iterating over "+u.toString());
+                    if(u.getId() == id){
+                        if(u.checkUser(Security.authorize(login, password))){
+                            l.info("&&&\tdeleting "+ u.toString());
+                            userDao.deleteById(id);
+                            ctx.result(om.writeValueAsString(u));
+                            ctx.status(200);
+                            break;
+                        }
                     }
                 }
+            } else {
+                l.warn(Security.unauthorizedMessage);
+                ctx.status(403);
+                ctx.result("Access denied(403)");
             }
         } catch (JsonProcessingException | SQLException e) {
             l.info(Security.serverErrorMessage);
@@ -187,6 +196,10 @@ public class UserController {
         } catch (EmailException e){
             ctx.status(400);
             ctx.result("Email isn't valid(400)");
+            l.info(Security.badRequestMessage);
+        } catch (NullPointerException e){
+            ctx.status(400);
+            ctx.result("Query param isn't valid(400)");
             l.info(Security.badRequestMessage);
         }
     }

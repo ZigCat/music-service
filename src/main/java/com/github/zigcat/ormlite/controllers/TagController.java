@@ -8,6 +8,7 @@ import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.ormlite.models.Tag;
+import com.github.zigcat.services.PaginationService;
 import com.github.zigcat.services.Security;
 import com.github.zigcat.services.TagService;
 import com.j256.ormlite.dao.Dao;
@@ -18,11 +19,13 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class TagController {
     public static Dao<Tag, Integer> tagDao;
     private static Logger l = LoggerFactory.getLogger(TagController.class);
     public static TagService tagService = new TagService();
+    private static PaginationService paginationService = new PaginationService();
 
     static {
         try {
@@ -34,16 +37,26 @@ public class TagController {
 
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL TAGS\t!!!");
+        Map map = ctx.queryParamMap();
+        long page;
         try {
-            List<Tag> tagList = tagService.listAll();
+            if(map.containsKey("page")){
+                page = Long.parseLong(ctx.queryParam("page"));
+            } else {
+                page = 1;
+            }
             l.info("&&&\tgetting all tags");
             ctx.status(200);
-            ctx.result(om.writeValueAsString(tagList));
+            ctx.result(om.writeValueAsString(paginationService.pagitation(tagDao, page, 10)));
         } catch (SQLException | JsonProcessingException e) {
             e.printStackTrace();
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
+        }  catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -139,16 +152,21 @@ public class TagController {
         l.info("!!!\tDELETING TAG\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        Map map = ctx.queryParamMap();
         try{
             if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                Tag t = om.readValue(ctx.body(), Tag.class);
-                for(Tag tag: tagService.listAll()){
-                    if(t.getId() == tag.getId()){
-                        l.info("&&&\tcreator has access, deleting tag");
-                        tagDao.deleteById(t.getId());
-                        ctx.status(200);
-                        ctx.result(om.writeValueAsString(t));
+                if(map.containsKey("id")){
+                    int id = Integer.parseInt(ctx.queryParam("id"));
+                    for(Tag tag: tagService.listAll()){
+                        if(id == tag.getId()){
+                            l.info("&&&\tcreator has access, deleting tag");
+                            tagDao.deleteById(id);
+                            ctx.status(200);
+                            ctx.result(om.writeValueAsString(tag));
+                        }
                     }
+                } else {
+                    throw new NullPointerException();
                 }
             } else {
                 ctx.status(403);
@@ -168,6 +186,10 @@ public class TagController {
             l.warn(Security.badRequestMessage);
             ctx.status(400);
             ctx.result("One of NotNull params is Null(400)");
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }

@@ -66,7 +66,7 @@ public class Main {
         app.patch("user/", ctx -> UserController.update(ctx, omUser));
         app.delete("user/", ctx -> UserController.delete(ctx, omUser));
         app.exception(IllegalArgumentException.class, (e, ctx) ->{ctx.status(403);})
-                .error(403, ctx -> ctx.result("Generic 403 message"));
+                .error(403, ctx -> ctx.result("Access denied"));
 //author CRUD
         app.get("author/", ctx -> AuthorController.getAll(ctx, om));
         app.get("author/:id", ctx -> AuthorController.getById(ctx, om));

@@ -9,6 +9,7 @@ import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.AuthorGroup;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.services.AuthorGroupService;
+import com.github.zigcat.services.PaginationService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -18,11 +19,13 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class AuthorGroupController {
     public static Dao<AuthorGroup, Integer> agDao;
     private static Logger l = LoggerFactory.getLogger(AuthorGroupController.class);
     public static AuthorGroupService agService = new AuthorGroupService();
+    private static PaginationService paginationService = new PaginationService();
 
     static {
         try {
@@ -34,16 +37,26 @@ public class AuthorGroupController {
 
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL RELATIONS(AUTHOR/GROUP)\t!!!");
+        Map map = ctx.queryParamMap();
+        long page;
         try {
-            List<AuthorGroup> agList = agService.listAll();
+            if(map.containsKey("page")){
+                page = Long.parseLong(ctx.queryParam("page"));
+            } else {
+                page = 1;
+            }
             l.info("&&&\tgetting all relations(author/group)");
             ctx.status(200);
-            ctx.result(om.writeValueAsString(agList));
+            ctx.result(om.writeValueAsString(paginationService.pagitation(agDao, page, 10)));
         } catch (SQLException | JsonProcessingException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
             e.printStackTrace();
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -139,18 +152,22 @@ public class AuthorGroupController {
     public static void delete(Context ctx, ObjectMapper om) {
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        Map map = ctx.queryParamMap();
         try {
             if (Security.authorize(login, password).getRole().equals(Role.ADMIN)) {
-                l.info("&&&\tcreator has access");
-                AuthorGroup authorGroup = om.readValue(ctx.body(), AuthorGroup.class);
-                List<AuthorGroup> agList = agService.listAll();
-                for (AuthorGroup ag : agList) {
-                    l.info("Iterating over " + ag.toString());
-                    if (ag.getId() == authorGroup.getId()) {
-                        agDao.deleteById(authorGroup.getId());
-                        ctx.status(200);
-                        ctx.result(om.writeValueAsString(authorGroup));
-                        l.info("&&&\tdeleting relation author/group");
+                if(map.containsKey("id")){
+                    int id = Integer.parseInt(ctx.queryParam("id"));
+                    l.info("&&&\tcreator has access");
+                    AuthorGroup authorGroup = om.readValue(ctx.body(), AuthorGroup.class);
+                    List<AuthorGroup> agList = agService.listAll();
+                    for (AuthorGroup ag : agList) {
+                        l.info("Iterating over " + ag.toString());
+                        if (ag.getId() == authorGroup.getId()) {
+                            agDao.deleteById(authorGroup.getId());
+                            ctx.status(200);
+                            ctx.result(om.writeValueAsString(authorGroup));
+                            l.info("&&&\tdeleting relation author/group");
+                        }
                     }
                 }
             } else {
@@ -171,6 +188,10 @@ public class AuthorGroupController {
             l.warn(Security.badRequestMessage);
             ctx.status(400);
             ctx.result("One of NotNull params is Null(400)");
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }

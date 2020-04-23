@@ -9,6 +9,7 @@ import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Author;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.services.AuthorService;
+import com.github.zigcat.services.PaginationService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -18,11 +19,13 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class AuthorController {
     public static Dao<Author, Integer> authorDao;
     private static Logger l = LoggerFactory.getLogger(AuthorController.class);
     public static AuthorService authorService = new AuthorService();
+    private static PaginationService paginationService = new PaginationService();
 
     static {
         try {
@@ -34,16 +37,26 @@ public class AuthorController {
 
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL AUTHORS\t!!!");
+        Map map = ctx.queryParamMap();
+        long page;
         try {
-            List<Author> authorList = authorService.listAll();
+            if(map.containsKey("page")){
+                page = Long.parseLong(ctx.queryParam("page"));
+            } else {
+                page = 1;
+            }
             l.info("&&&\tgetting info about all authors");
-            ctx.result(om.writeValueAsString(authorList));
+            ctx.result(om.writeValueAsString(paginationService.pagitation(authorDao, page, 10)));
             ctx.status(200);
         } catch (SQLException | JsonProcessingException e) {
             l.warn(Security.serverErrorMessage);
             ctx.result("Generic 500 message");
             ctx.status(500);
             e.printStackTrace();
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -147,22 +160,27 @@ public class AuthorController {
         l.info("!!!\tDELETING AUTHOR\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        Map map = ctx.queryParamMap();
         try {
-            Author author = om.readValue(ctx.body(), Author.class);
-            for(Author a: authorService.listAll()){
-                if(a.checkAuthor(author)){
-                    if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                        authorDao.delete(a);
-                        l.info("&&&\tcreator has access, deleting author "+a.toString());
-                        ctx.result(om.writeValueAsString(a));
-                        ctx.status(200);
-                        break;
-                    } else {
-                        ctx.result("Access denied");
-                        l.warn(Security.unauthorizedMessage);
-                        ctx.status(403);
+            if(map.containsKey("id")){
+                int id = Integer.parseInt(ctx.queryParam("id"));
+                for(Author a: authorService.listAll()){
+                    if(a.getId() == id){
+                        if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
+                            authorDao.deleteById(id);
+                            l.info("&&&\tcreator has access, deleting author "+a.toString());
+                            ctx.result(om.writeValueAsString(a));
+                            ctx.status(200);
+                            break;
+                        } else {
+                            ctx.result("Access denied");
+                            l.warn(Security.unauthorizedMessage);
+                            ctx.status(403);
+                        }
                     }
                 }
+            } else {
+                throw new NullPointerException();
             }
         } catch (JsonProcessingException | SQLException | RedirectionException e) {
             e.printStackTrace();
@@ -177,6 +195,10 @@ public class AuthorController {
             l.warn(Security.badRequestMessage);
             ctx.status(400);
             ctx.result("One of NotNull params is Null(400)");
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
     }
 }

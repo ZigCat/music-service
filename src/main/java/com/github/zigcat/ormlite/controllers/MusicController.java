@@ -8,6 +8,7 @@ import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.*;
 import com.github.zigcat.services.MusicService;
+import com.github.zigcat.services.PaginationService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -20,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +28,7 @@ public class MusicController {
     public static Dao<Music, Integer> musicDao;
     private static Logger l = LoggerFactory.getLogger(MusicController.class);
     public static MusicService musicService = new MusicService();
+    private static PaginationService paginationService = new PaginationService();
 
     static {
         try {
@@ -39,16 +40,27 @@ public class MusicController {
 
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL MUSIC\t!!!");
+        long page;
+        Map queryMap = ctx.queryParamMap();
         try {
+            if(queryMap.containsKey("page")){
+                page = Long.parseLong(ctx.queryParam("page"));
+            } else {
+                page = 1;
+            }
             List<Music> musicList = musicService.listAll();
             l.info("&&&\tgetting all music");
             ctx.status(200);
-            ctx.result(om.writeValueAsString(musicList));
+            ctx.result(om.writeValueAsString(paginationService.pagitation(musicDao, page, 10)));
         } catch (SQLException | JsonProcessingException e) {
             e.printStackTrace();
             l.warn(Security.serverErrorMessage);
             ctx.result("Generic 500 message");
             ctx.status(500);
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.result("Wrong query param(400)");
+            ctx.status(400);
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -85,6 +97,8 @@ public class MusicController {
                 ctx.status(201);
                 ctx.result(om.writeValueAsString(music));
                 musicDao.create(music);
+            } else {
+
             }
         } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
@@ -142,18 +156,23 @@ public class MusicController {
         l.info("!!!\tDELETING MUSIC\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        Map map = ctx.queryParamMap();
         try {
-            Music music = om.readValue(ctx.body(), Music.class);
-            for(Music m: musicService.listAll()){
-                if(m.getId() == music.getId()){
-                    if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                        l.info("&&&\tcreator has access, deleting music "+m.toString());
-                        ctx.status(200);
-                        ctx.result(om.writeValueAsString(m));
-                        musicDao.deleteById(m.getId());
-                        break;
+            if(map.containsKey("id")) {
+                int id = Integer.parseInt(ctx.queryParam("id"));
+                for (Music m : musicService.listAll()) {
+                    if (m.getId() == id) {
+                        if (Security.authorize(login, password).getRole().equals(Role.ADMIN)) {
+                            l.info("&&&\tcreator has access, deleting music " + m.toString());
+                            ctx.status(200);
+                            ctx.result(om.writeValueAsString(m));
+                            musicDao.deleteById(id);
+                            break;
+                        }
                     }
                 }
+            } else {
+                throw new NullPointerException("wrong queryParam");
             }
         } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
@@ -168,6 +187,10 @@ public class MusicController {
             l.warn(Security.badRequestMessage);
             ctx.status(400);
             ctx.result("One of NotNull params is Null(400)");
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param(400)");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }

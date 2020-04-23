@@ -9,6 +9,7 @@ import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Group;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.services.GroupService;
+import com.github.zigcat.services.PaginationService;
 import com.github.zigcat.services.Security;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -18,11 +19,13 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class GroupController {
     public static Dao<Group, Integer> groupDao;
     private static Logger l = LoggerFactory.getLogger(GroupController.class);
     public static GroupService groupService = new GroupService();
+    private static PaginationService paginationService = new PaginationService();
 
     static {
         try {
@@ -34,9 +37,15 @@ public class GroupController {
 
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL GROUPS\t!!!");
+        Map map = ctx.queryParamMap();
+        long page;
         try {
-            List<Group> groupList = groupService.listAll();
-            ctx.result(om.writeValueAsString(groupList));
+            if(map.containsKey("page")){
+                page = Long.parseLong(ctx.queryParam("page"));
+            } else {
+                page = 1;
+            }
+            ctx.result(om.writeValueAsString(paginationService.pagitation(groupDao, page, 10)));
             ctx.status(200);
             l.info("&&&\tgetting all groups");
         } catch (SQLException | JsonProcessingException e) {
@@ -44,6 +53,10 @@ public class GroupController {
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
             e.printStackTrace();
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -139,19 +152,25 @@ public class GroupController {
         l.info("!!!\tDELETING GROUP\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        Map map = ctx.queryParamMap();
         try {
-            Group delGroup = om.readValue(ctx.body(), Group.class);
-            for(Group g: groupService.listAll()){
-                l.info("Iterating over "+g.toString());
-                if(g.checkGroup(delGroup)){
-                    if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                        l.info("&&&\tcreator has access, deleting "+g.toString());
-                        groupDao.delete(g);
-                        ctx.result(om.writeValueAsString(g));
-                        ctx.status(200);
+            if(map.containsKey("id")){
+                int id = Integer.parseInt(ctx.queryParam("id"));
+                for(Group g: groupService.listAll()){
+                    l.info("Iterating over "+g.toString());
+                    if(g.getId() == id){
+                        if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
+                            l.info("&&&\tcreator has access, deleting "+g.toString());
+                            groupDao.deleteById(id);
+                            ctx.result(om.writeValueAsString(g));
+                            ctx.status(200);
+                        }
                     }
                 }
+            } else {
+                throw new NullPointerException();
             }
+
         } catch (JsonProcessingException | SQLException | RedirectionException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");
@@ -165,6 +184,10 @@ public class GroupController {
             l.warn(Security.badRequestMessage);
             ctx.status(400);
             ctx.result("One of NotNull params is Null(400)");
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }

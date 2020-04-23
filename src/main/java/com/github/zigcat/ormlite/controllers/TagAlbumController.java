@@ -8,6 +8,7 @@ import com.github.zigcat.ormlite.exception.NotFoundException;
 import com.github.zigcat.ormlite.exception.RedirectionException;
 import com.github.zigcat.ormlite.models.Role;
 import com.github.zigcat.ormlite.models.TagAlbum;
+import com.github.zigcat.services.PaginationService;
 import com.github.zigcat.services.Security;
 import com.github.zigcat.services.TagAlbumService;
 import com.j256.ormlite.dao.Dao;
@@ -18,11 +19,13 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class TagAlbumController {
     public static Dao<TagAlbum, Integer> taDao;
     private static Logger l = LoggerFactory.getLogger(TagAlbumController.class);
     public static TagAlbumService taService = new TagAlbumService();
+    private static PaginationService paginationService = new PaginationService();
 
     static {
         try {
@@ -34,16 +37,26 @@ public class TagAlbumController {
 
     public static void getAll(Context ctx, ObjectMapper om){
         l.info("!!!\tGETTING ALL TAGALBUM\t!!!");
+        Map map = ctx.queryParamMap();
+        long page;
         try {
-            List<TagAlbum> taList = taService.listAll();
+            if(map.containsKey("page")){
+                page = Long.parseLong(ctx.queryParam("page"));
+            } else {
+                page = 1;
+            }
             l.info("&&&\tgetting all tagAlbum");
             ctx.status(200);
-            ctx.result(om.writeValueAsString(taList));
+            ctx.result(om.writeValueAsString(paginationService.pagitation(taDao, page, 10)));
         } catch (SQLException | JsonProcessingException e) {
             e.printStackTrace();
             ctx.status(500);
             ctx.result("Generic 500 message");
             l.warn(Security.serverErrorMessage);
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
@@ -141,18 +154,22 @@ public class TagAlbumController {
         l.info("!!!\tDELETING TAGALBUM\t!!!");
         String login = ctx.basicAuthCredentials().getUsername();
         String password = ctx.basicAuthCredentials().getPassword();
+        Map map = ctx.queryParamMap();
         try {
             if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
-                TagAlbum tagAlbum = om.readValue(ctx.body(), TagAlbum.class);
-                l.info("&&&\tcreator has access");
-                for(TagAlbum ta: taService.listAll()){
-                    l.info("Iterating over "+ta.toString());
-                    if(ta.getId() == tagAlbum.getId()){
-                        l.info("&&&\tdeleting to "+tagAlbum.toString());
-                        taDao.deleteById(tagAlbum.getId());
-                        ctx.status(200);
-                        ctx.result(om.writeValueAsString(ta));
+                if(map.containsKey("id")){
+                    int id = Integer.parseInt(ctx.queryParam("id"));l.info("&&&\tcreator has access");
+                    for(TagAlbum ta: taService.listAll()){
+                        l.info("Iterating over "+ta.toString());
+                        if(ta.getId() == id){
+                            l.info("&&&\tdeleting to "+ta.toString());
+                            taDao.deleteById(id);
+                            ctx.status(200);
+                            ctx.result(om.writeValueAsString(ta));
+                        }
                     }
+                } else {
+                    throw new NullPointerException();
                 }
             } else {
                 ctx.status(403);
@@ -172,6 +189,10 @@ public class TagAlbumController {
             l.warn(Security.badRequestMessage);
             ctx.status(400);
             ctx.result("One of NotNull params is Null(400)");
+        } catch (NullPointerException e){
+            l.warn(Security.badRequestMessage);
+            ctx.status(400);
+            ctx.result("Wrong query param");
         }
         l.info("!!!\tQUERY DONE\t!!!");
     }
