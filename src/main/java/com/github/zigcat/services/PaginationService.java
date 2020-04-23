@@ -10,9 +10,9 @@ public class PaginationService {
     public PaginationService() {
     }
 
-    public <T> List<T> pagitation(Dao<T, Integer> dao, long page, long pageSize) throws SQLException {
+    public <T> List<T> pagination(Dao<T, Integer> dao, long page, long pageSize) throws SQLException {
         QueryBuilder<T, Integer> queryBuilder = dao.queryBuilder();
-        queryBuilder.offset((page * pageSize)-1).limit(pageSize);
+        queryBuilder.offset((page * pageSize)).limit(pageSize);
         return dao.query(queryBuilder.prepare());
     }
 }

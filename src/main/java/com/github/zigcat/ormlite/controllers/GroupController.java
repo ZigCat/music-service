@@ -43,9 +43,9 @@ public class GroupController {
             if(map.containsKey("page")){
                 page = Long.parseLong(ctx.queryParam("page"));
             } else {
-                page = 1;
+                page = 0;
             }
-            ctx.result(om.writeValueAsString(paginationService.pagitation(groupDao, page, 10)));
+            ctx.result(om.writeValueAsString(paginationService.pagination(groupDao, page, 10)));
             ctx.status(200);
             l.info("&&&\tgetting all groups");
         } catch (SQLException | JsonProcessingException e) {

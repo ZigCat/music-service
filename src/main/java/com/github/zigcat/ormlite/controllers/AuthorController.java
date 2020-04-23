@@ -43,10 +43,10 @@ public class AuthorController {
             if(map.containsKey("page")){
                 page = Long.parseLong(ctx.queryParam("page"));
             } else {
-                page = 1;
+                page = 0;
             }
             l.info("&&&\tgetting info about all authors");
-            ctx.result(om.writeValueAsString(paginationService.pagitation(authorDao, page, 10)));
+            ctx.result(om.writeValueAsString(paginationService.pagination(authorDao, page, 10)));
             ctx.status(200);
         } catch (SQLException | JsonProcessingException e) {
             l.warn(Security.serverErrorMessage);

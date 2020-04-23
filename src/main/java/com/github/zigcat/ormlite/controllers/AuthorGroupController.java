@@ -43,11 +43,11 @@ public class AuthorGroupController {
             if(map.containsKey("page")){
                 page = Long.parseLong(ctx.queryParam("page"));
             } else {
-                page = 1;
+                page = 0;
             }
             l.info("&&&\tgetting all relations(author/group)");
             ctx.status(200);
-            ctx.result(om.writeValueAsString(paginationService.pagitation(agDao, page, 10)));
+            ctx.result(om.writeValueAsString(paginationService.pagination(agDao, page, 10)));
         } catch (SQLException | JsonProcessingException e) {
             ctx.status(500);
             ctx.result("Generic 500 message");

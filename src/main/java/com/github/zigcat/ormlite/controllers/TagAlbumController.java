@@ -43,11 +43,11 @@ public class TagAlbumController {
             if(map.containsKey("page")){
                 page = Long.parseLong(ctx.queryParam("page"));
             } else {
-                page = 1;
+                page = 0;
             }
             l.info("&&&\tgetting all tagAlbum");
             ctx.status(200);
-            ctx.result(om.writeValueAsString(paginationService.pagitation(taDao, page, 10)));
+            ctx.result(om.writeValueAsString(paginationService.pagination(taDao, page, 10)));
         } catch (SQLException | JsonProcessingException e) {
             e.printStackTrace();
             ctx.status(500);

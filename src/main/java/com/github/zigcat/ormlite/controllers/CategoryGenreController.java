@@ -43,10 +43,10 @@ public class CategoryGenreController {
             if(map.containsKey("page")){
                 page = Long.parseLong(ctx.queryParam("page"));
             } else {
-                page = 1;
+                page = 0;
             }
             ctx.status(200);
-            ctx.result(om.writeValueAsString(paginationService.pagitation(cgDao, page, 10)));
+            ctx.result(om.writeValueAsString(paginationService.pagination(cgDao, page, 10)));
         } catch (SQLException | JsonProcessingException e) {
             e.printStackTrace();
             ctx.status(500);

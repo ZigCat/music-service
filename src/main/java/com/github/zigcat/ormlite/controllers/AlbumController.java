@@ -42,10 +42,10 @@ public class AlbumController {
             if(queryMap.containsKey("page")){
                 page = Long.parseLong(ctx.queryParam("page"));
             } else {
-                page = 1;
+                page = 0;
             }
             l.info("&&&\tgetting all albums");
-            ctx.result(om.writeValueAsString(paginationService.pagitation(albumDao, page, 10)));
+            ctx.result(om.writeValueAsString(paginationService.pagination(albumDao, page, 10)));
             ctx.status(200);
         } catch (SQLException | JsonProcessingException e) {
             l.warn(Security.serverErrorMessage);

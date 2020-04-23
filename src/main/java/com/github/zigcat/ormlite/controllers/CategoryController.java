@@ -43,11 +43,11 @@ public class CategoryController {
             if(map.containsKey("page")){
                 page = Long.parseLong(ctx.queryParam("page"));
             } else {
-                page = 1;
+                page = 0;
             }
             l.info("&&&\tgetting all categories");
             ctx.status(200);
-            ctx.result(om.writeValueAsString(paginationService.pagitation(categoryDao, page, 10)));
+            ctx.result(om.writeValueAsString(paginationService.pagination(categoryDao, page, 10)));
         } catch (SQLException | JsonProcessingException e) {
             e.printStackTrace();
             ctx.status(500);

@@ -44,17 +44,17 @@ public class UserController {
             if(queryMap.containsKey("page")){
                 page = Long.parseLong(ctx.queryParam("page"));
             } else {
-                page = 1;
+                page = 0;
             }
             List<User> userList = userService.listAll();
             if(Security.authorize(login, password).getRole().equals(Role.ADMIN)){
                 l.info("&&&\tgetting info as ADMIN");
-                ctx.result(omAdmin.writeValueAsString(paginationService.pagitation(userDao, page, 10)));
+                ctx.result(omAdmin.writeValueAsString(paginationService.pagination(userDao, page, 10)));
                 ctx.status(200);
             }
             else {
                 l.info("&&&\tgetting info as USER");
-                ctx.result(om.writeValueAsString(paginationService.pagitation(userDao, page, 10)));
+                ctx.result(om.writeValueAsString(paginationService.pagination(userDao, page, 10)));
                 ctx.status(200);
             }
         } catch (SQLException | JsonProcessingException e) {
